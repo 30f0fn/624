@@ -1,0 +1,411 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\date{3 February 2020}
+\title{CS 624 - HW 1}
+\author{Max Weiss}
+\begin{document}
+\maketitle
+
+\hypertarget{a}{%
+\paragraph{1 (a)}\label{a}}
+
+A derivation on p20 of the handout gives \begin{equation*}
+  \label{eq:fib}
+  \sum_{n=0}^{\infty}f_nx^n = \frac{x}{1-x-x^2}
+\end{equation*} Differentiating both sides, 
+\begin{align}
+  \label{eq:fibdiff}
+  \sum_{n=0}^{\infty}nf_nx^{n-1} = \frac{(1-x-x^2) - x(-1-2x)}{(1-x-x^2)^2}
+  = \frac{1 + x^2}{(1-x-x^2)^2}.
+\end{align} Substituting \(1/2\) for \(x\), \begin{align*}
+  \sum_{n=0}^{\infty}\frac{nf_n}{2^{n-1}}
+  = \frac{1 + \frac{1}{4}}{(1-\frac{1}{2}-\frac{1}{4})^2}
+  = \frac{\frac{5}{4}}{\frac{1}{16}}
+    = 20.
+\end{align*}
+
+\hypertarget{b}{%
+\paragraph{1 (b)}\label{b}}
+
+Substituting \(1\) for \(x\) in (\ref{eq:fibdiff}) would appear to give
+\begin{align}
+  \label{eq:fibdiffconscrazy}
+  \sum_{n=0}^{\infty}nf_n = \frac{(1-1-1) - 1(-1-2)}{(1-1-1)^2} = 2.
+\end{align} However, (\ref{eq:fibdiffconscrazy}) is false; indeed, the
+sum on the left hand side does not converge at all. For, toward a
+contradiction, suppose that the sum converges to \(d\). Since \(f_n>n\)
+for all \(n>3\) (as is clear by induction on \(n\)), it follows that
+\(nf_n>n\) for all \(n>3\). Thus, \(\sum_{n=0}^{e}nf_n > d+1\) for any
+\(e\) greater than both \(d\) and \(3\). So, any partial sum of length
+at least \(e\) cannot come within even \(\epsilon=1\) of \(d\),
+contradicting the definition of convergence.
+
+\hypertarget{a-1}{%
+\paragraph{2(a)}\label{a-1}}
+
+According to the binomial theorem, \begin{equation}
+  \label{eq:binthm}
+  (1+x)^n = \sum_{k=0}^{n}\binom{n}{k}x^k.
+\end{equation}
+
+\hypertarget{b-1}{%
+\paragraph{2(b)}\label{b-1}}
+
+Similarly, \begin{equation}
+  \label{eq:binthm2}
+  (1-x)^n = \sum_{k=0}^{n}\binom{n}{k}(-x)^k.
+\end{equation}
+
+\hypertarget{c}{%
+\paragraph{2(c)}\label{c}}
+
+Using (\ref{eq:binthm}) and (\ref{eq:binthm2}) above, \begin{align*}
+  (1 + x)^n + (1 - x)^n
+  &= \sum_{k=0}^{n}\binom{n}{k}x^k + \sum_{k=0}^{n}\binom{n}{k}(-x)^k\\
+  &= \sum_{k=0}^{n}\binom{n}{k}(x^k + (-x)^k)\\
+  &= 2\left(\binom{n}{0}x^0 + \binom{n}{2}x^2 + \binom{n}{4}x^4 + \cdots\right).
+\end{align*}
+
+\hypertarget{d}{%
+\paragraph{2(d)}\label{d}}
+
+Likewise using (\ref{eq:binthm}) and (\ref{eq:binthm2}) above,
+\begin{align}
+\label{eq:bincons}
+  \nonumber (1 + x)^n - (1 - x)^n
+  &= \sum_{k=0}^{n}\binom{n}{k}x^k - \sum_{k=0}^{n}\binom{n}{k}(-x)^k\\
+  \nonumber
+  &= \sum_{k=0}^{n}\binom{n}{k}(x^k - (-x)^k)\\
+  &= 2\left(\binom{n}{1}x^1 + \binom{n}{3}x^3 + \binom{n}{5}x^5 + \cdots\right).
+\end{align}
+
+\hypertarget{e}{%
+\paragraph{2(e)}\label{e}}
+
+Setting \(x=1\), the equation (\ref{eq:bincons}) implies
+\begin{equation*}
+  2^n = (1 + 1)^n - (1 - 1)^n = 2\left(\binom{n}{1} + \binom{n}{3} + \binom{n}{5} + \cdots\right)
+\end{equation*} and so \begin{equation*}
+   \binom{n}{1} + \binom{n}{3} + \binom{n}{5} + \cdots = 2^{n-1}
+\end{equation*} which should be simple enough for the econ prof!
+
+\hypertarget{a-2}{%
+\paragraph{3 (a)}\label{a-2}}
+
+Let me write \(f(n) = n^2\) and \(g(n) = 2^n\). Note that
+\begin{equation*}
+f(n+1) = (n+1)^2 = n^2 + 2n + 1 = f(n) + 2n + 1  
+\end{equation*} while \begin{equation*}
+g(n+1)=2^{n+1}=g(n)+g(n).
+\end{equation*} It follows that if \(g(n)>f(n)\) and \(g(n)>2n+1\), then
+\(g(n+1)>f(n+1)\).
+
+I'll argue that \(g(n) > 2n+1\) for all \(n\geq 5\). This is clear for
+\(n=5\). Now assume that \(g(n)>2n+1\). Then \begin{equation*}
+g(n+1) = 2g(n) > 2(2n + 1) > 2(n+1) + 1  
+\end{equation*} and so the claim follows by induction.
+
+The above two claims imply that if \(g(n)>f(n)\), then \(g(n+1)>f(n+1)\)
+for all \(n>4\). However, \(g(5)>f(5)\). So if \(x=5\), then
+\(f(n)\leq g(n)\) for all \(n\geq x\). So \(f\in O(g)\), as desired.
+
+\hypertarget{b-2}{%
+\paragraph{3 (b)}\label{b-2}}
+
+Note that \(2^{n+1} = 2*(2^n)\). So if \(c=2\) and \(x=0\), it follows
+that that \(2^{n+1}\leq c*2^n\) for all \(n\geq x\).
+
+\hypertarget{c-1}{%
+\paragraph{3 (c)}\label{c-1}}
+
+Suppose there were \(c,x\) such that \(2^{2n} \leq c*2^n\) for all
+\(n\geq x\). Since \(2^n>0\), it follows from
+\(2^{2(n+1)} \leq c * 2^{n+1}\) that \(2^{n+1} \leq c\) for all
+\(n\geq x\).
+
+However, \(2^n>n\) for all \(n\geq0\) (as is readily proved by induction
+on \(n\)). Hence, \(2^{c+1}> c+1 > c\). We must therefore have \(c<x\),
+so that \(c < x < 2^x < 2^{x+1}\), a contradiction.
+
+\hypertarget{d-1}{%
+\paragraph{3 (d)}\label{d-1}}
+
+Let \(f(n) = 2n\), and let \(g(n) = n\). Clearly \(f\in O(g)\), since we
+may pick \(c=2\). But, writing \(\hat f(n) = 2^{f(n)}\) and
+\(\hat g(n) = 2^{g(n)}\), the above response to exercise 3c says
+precisely that \(\hat f\not\in O(\hat g)\).
+
+\hypertarget{section}{%
+\paragraph{4}\label{section}}
+
+First, note that \(a^{\log_a(x)} = x\), so that \begin{equation}
+  \log_a(x)  \log_b(a) = \log_b(a^{\log_a(x)})  = \log_b(x).
+\end{equation} Therefore \begin{equation}
+  \log_a(x) = \log_b(x)/\log_b(a)
+\end{equation} (the ``change of base formula''). So setting
+\(c=1/\log_b(a)\) and \(x=1\), it follows that
+\(\log_a(x_0)\leq c\log_b(x_0)\) for all \(x_0>x\).
+
+\hypertarget{a-3}{%
+\paragraph{5 (a)}\label{a-3}}
+
+I'll argue by induction on \(n\). Clearly \(x^{j}\in O(x^n)\) if
+\(n=j\). Now, suppose that \(x^j \leq cx^n\) for all \(x\). Picking
+\(\hat x\) to be the greater of \(x\) and \(1\), it follows that
+\(x^j \leq cx^n \leq c x^{n+1}\) for all \(x\geq \hat x\), as desired.
+
+Before continuing to (b), note that if \(g\in O(f)\), then
+\(O(g)\subseteq O(f)\). Hence part (a) implies that
+\(O(x^j)\subseteq O(x^n)\) for all \(j\leq n\).
+
+\hypertarget{b-3}{%
+\paragraph{(b)}\label{b-3}}
+
+I'll argue by induction on \(n\). The claim is trivial for \(n=1\).
+Writing \(p(x) = \sum_{i=1}^{n}a_nx^n\), suppose that
+\(\sum_{i=1}^{n}a_nx^n \in O(x^n)\). It then follows from the above
+remark on part (a) that \(p(x) \in O(x^{n+1})\). Meanwhile, clearly
+\(a_{n+1}x^{n+1} \in O(x^{n+1})\). The claim follows from the fact that
+\(O(x^{n+1})\) is closed under addition (Lemma 3.1 in the handout).
+
+It now suffices to show that \(O(f)\) is closed under addition for any
+\(f\). Well if \(O(f)\) contains both \(g\) and \(h\), then there are
+\(x_0, x_1\) and \(c_0, c_1\) such that \(g(n)\leq c_0f(n)\) and
+\(h(n)\leq c_1f(n)\) for all \(n\) respectively no less than
+\(x_0, x_1\). Picking \(c\) and \(x\) as \(c_0+c_1\) and the larger of
+\(x_0, x_1\), it follows that \(g(x) + h(x) \leq cf(n)\) for all
+\(n \geq x\).
+
+\hypertarget{c-2}{%
+\paragraph{(c)}\label{c-2}}
+
+First, note that \(p(x)\geq a_nx^{n}\) for all \(x>0\), so it suffices to
+show that \(a_nx^{n}\in \Omega(x^n)\). Since \(a_n>0\), we may simply
+pick \(c=a_n\) to affirm that \(a_nx^n \geq cx^n\) for all \(x\) so that
+\(a_nx^n\in \Omega(x^n)\) as desired.
+
+\hypertarget{d-2}{%
+\paragraph{(d)}\label{d-2}}
+
+Suppose that \(p(x)\in O(x^d)\), where \(p(x) = \sum_{i=1}^na_ix^i\).
+Toward a contradiction further suppose that \(a_n>0\). Then likewise
+\(a_nx^n\in O(x^d)\), and so, since \(a_n>0\), also \(x^n\in O(x^d)\).
+Then there are \(c, \hat x\) such that \(x^n \leq cx^d\) for all
+\(x\geq\hat x\). So writing \(m=n-d\), we have \(m>1\) while
+\(x^m \leq c\) for all \(x\geq \hat x\). This contradicts the fact that
+\(x^m > c\) for any \(x\) greater than both \(1\) and \(c\).
+
+\hypertarget{section-1}{%
+\paragraph{6}\label{section-1}}
+
+Suppose that \(f\in O(g)\) and \(g\in O(h)\). Then there are
+\(c_0,c_1,x_0, x_1\) such that \(f(x)\leq c_0g(x)\) and
+\(g(x)\leq c_1h(x)\) for all \(x\) greater than \(x_0,x_1\)
+respectively. Picking \(c\) to be \(c_0c_1\) and \(\hat x\) to be the
+larger of \(x_0,x_1\), it follows that \(f(x)\leq ch(x)\) for all
+\(x\geq \hat x\).
+
+\hypertarget{a-4}{%
+\paragraph{7 (a)}\label{a-4}}
+
+\(T(n) = 2T(\frac{n}{2}) + n^4\). Setting \(a=2\) and \(b=2\), it
+follows that \(\log_b a = 1\) so that
+\(f(n) = n^4\in O(n^{\log_b a + \epsilon})\) for \(\epsilon=3\).
+Furthermore, picking \(c=1\), \begin{equation*}
+af\left(\frac{n}{b}\right) = 2\left(\frac{n}{2}\right)^4 = \frac{n^4}{8}\leq n^4 = cf(n)  
+\end{equation*} for all sufficiently large \(n\) (e.g., \(>1\)).
+
+So, we are in case (3) of the master theorem, and
+\(T(n) = \Theta(f(n)) = \Theta(n^4)\).
+
+\hypertarget{b-4}{%
+\paragraph{(b)}\label{b-4}}
+
+\(T(n) = T(\frac{7n}{10}) + n\). Setting \(a=1\) and \(b=\frac{10}{7}\),
+it follows that \(\log_ba=\log_{\frac{10}{7}}1 = 0\). So here
+\(f(n) = n^1 \in O(n^{\log_b a + \epsilon})\) for \(\epsilon = 1\).
+Furthermore, again picking \(c=1\), \begin{equation*}
+  f\left(\frac{7n}{10}\right)=\frac{7n}{10}\leq n = cf(n)
+\end{equation*} for all \(n\geq 0\).
+
+So we are again in case (3) of the master theorem, and
+\[
+T(n) = \Theta(f(n))=\Theta(n).
+\]
+
+\hypertarget{c-3}{%
+\paragraph{(c)}\label{c-3}}
+
+\(T(n) = 16T(\frac{n}{4}) + n^2\). With \(a=16\) and \(b=4\), it follows that
+\(f(n)=n^2\in O(n^2)=O(n^{\log_b a})\).
+
+Here we are in case (2) of the master theorem, and
+\[
+T(n)=\Theta(n^{\log_b a}\lg n)=\Theta(n^2\lg n).
+\]
+
+\hypertarget{f}{%
+\paragraph{(f)}\label{f}}
+
+\(T(n) = 2T(\frac{n}{4}) + \sqrt n\). With \(a=2\) \(b=4\), it follows that
+\(f(n)=\sqrt{n} = n^{\frac{1}{2}}\in O(n^{\frac{1}{2}})=O(n^{\log_b a})\).
+
+So again we are in case (2) of the master theorem, and
+\[
+T(n)=\Theta(n^{\log_b a}\lg n)=\Theta(\sqrt{n}\lg n).
+\]
+
+
+\hypertarget{g}{%
+\paragraph{(g)}\label{g}}
+
+\(T(n) = T(n-2) + n^2\). In this case, the recurrence doesn't (apparently) have a
+form suited to the master theorem. However, note for example that
+\begin{equation*}
+T(7) = T(1) + 3^2 + 5^2 + 7^2  
+\end{equation*} and this clearly generalizes: \(T(n)\) is the sum of a
+constant plus the squares of all odd numbers from \(3\) up to \(n\).
+Geometrically, the sum can be approximated as a pyramid with with base
+lengths and height each in some constant ratio to \(n\). So a reasonable
+guess is that \(T(n) \in \Theta(n^3)\).
+
+Following the substitution method, I'll now argue first, by induction on
+\(n\), that \(T(n)\geq \frac{1}{6}n^3\) for all \(n\geq 3\). For the
+basis step, we need to consider both \(n=3\) and \(n=4\), which amounts
+to observing that \(3^2+T(1) \geq \frac{1}{6}3^3\) and that
+\(4^2+T(1) \geq \frac{1}{6}4^3\). Assuming now that
+\(T(m)\geq \frac{1}{6}m^3\) for all \(m<n\), it follows for \(n>4\) that
+\begin{align*}
+  T(n) &= T(n - 2) + n^2\\
+       &\geq \frac{1}{6}(n-2)^3 + n^2\\
+       % &= \frac{1}{6}(n^3 - 6n^2 + 12n - 8) + n^2\\
+       &= \frac{1}{6}n^3 + 2n - \frac{4}{3}\\
+       &\geq \frac{1}{6}n^3.
+\end{align*} It remains to find conversely an bound on \(T\). For
+simplicity, let's assume that the times \(T(1)\) and \(T(2)\) are
+negligible (since \(T\) is unbounded, it will eventually swamp
+whatever constants they may be). I'll argue, again by induction on
+\(n\), that \(T(n)\leq n^3\) for all \(n\geq 12\). It's easy to verify
+that this holds for \(n=12\) and \(n=13\), so suppose that it holds for
+all \(m<n\). It follows, certainly for \(n>13\), that \begin{align*}
+  T(n) &= T(n - 2) + n^2\\
+       &\leq n^3 - 6n^2 + 12n - 8 + n^2\\
+       % &= n^3 -5n^2 +12n - 8\\
+       &\leq n^3.
+\end{align*}
+
+\hypertarget{section-2}{%
+\paragraph{8.}\label{section-2}}
+
+{[}See attachment.{]}
+
+\hypertarget{a-5}{%
+\paragraph{9 (a)}\label{a-5}}
+
+There exist nonempty sets of points in the plane which contain no
+uniquely closest pair. For example, \(\{(0,1),(0,2),(0,3)\}\).
+
+\hypertarget{b-5}{%
+\paragraph{(b)}\label{b-5}}
+
+The algorithm takes time proportional to \(n^2\), for all \(n\). To see
+this, note that the collection of pairs of elements of an \(n\)-element
+set has size proportional to \(n^2\). (If the pairs are ordered pairs,
+it is exactly \(n^2\), else it is \(\frac{n(n+1)}{2}\)). Since the
+algorithm measures a distance for each pair, it must take at least
+\(\sim n^2\) steps. Conversely, it requires only a constant number of
+tasks per pair; besides measuring the distance \(d\), it must compare
+\(d\) with the current maximum distance \(m\) and in the worst case
+replace \(m\) with \(d\).
+
+\hypertarget{section-3}{%
+\paragraph{10.}\label{section-3}}
+
+Suppose that the nodes of a binary tree are labelled with the entries of
+an array \(A\). Specifically, the node of depth \(0\) is labelled with
+the first entry \(A[1]\), the nodes of depth \(1\) with the second and
+third entries \(A[2]\) and \(A[3]\), and so on.\footnote{I'm just assuming the fact that there always exists a (unique) such labelling.} The statement in question is this:
+\begin{itemize}
+\item[(*)] If $N$ is labelled with $A[n]$, then the children of $N$ are labelled with $A[2n]$ and $A[2n+1]$.
+\end{itemize}
+This statement has counterexamples if the array entries are not all distinct (for example, suppose that the root and its children are labeled $0$, but the children's children are in turn labeled $1$; then the root is labeled with $0=A[2]$, but its children are not labeled with $A[4]$ or $A[4+1]$).
+
+So instead, I will begin by proving a special case of (*), namely where $A[i]=i$ for all $i$.  From this I will derive a weaker version of (*).
+
+Let's say that the index of a given node is the array index of the unique entry by which
+it is labelled. The special case to handled is now this:
+\begin{itemize}
+\item[(A)] Suppose that a given node $N$ has index $n$,
+  and that each node of index at most $n$ has two children.
+  Then the children of $N$ have indices $2n$ and $2n+1$.
+\end{itemize}
+
+Toward a proof of (A), first note two facts.  In both cases, assume that the depth $d$ is less than the depth of $N$ (so that ``all'' nodes of depth $d$ exist).
+\begin{itemize}
+\item[(B)] The number of nodes of depth $d$ is $2^d$. This is clear for $d=0$.  As for $d+1$, by induction there are $2^d$ nodes of depth $d$, and the nodes of depth $d+1$ are precisely the children of a node of depth $d$.  Since each node has two children, and no two nodes have a child in common, it follows that there are $2(2^d)=2^{d+1}$ nodes of depth $d+1$.
+\item[(C)] The number of all nodes of depth less than $d$ is $2^{d}-1$.  This is vacuous for $d=0$. Now, suppose the claim holds for $d$.  The nodes of depth less than $d+1$ are precisely the nodes of depth less than $d$, plus the nodes of depth $d$ itself.  By fact (B), the number of nodes of depth $d$ is $2^{d}$, while by induction hypothesis, the number of nodes of depth less than $d$ is $2^d-1$.  However, $2^{d} + 2^{d} - 1 = 2^{d+1}-1$, which proves the claim.
+% \item[(D)] The \(i\)th node of depth \(d\) has index \(2^d+i\). 
+% The number of all nodes of depth less than $d$ is $2^d$, provided $d$ is no greater than the depth of $N$.  This is vacuously true for $d=0$.  Now, note that the nodes of depth less than $d$ are precisely the nodes of depth less than $d-1$, together with the nodes of depth $d-1$ itself.  So supposing the number of nodes of depth less than $d-1$ to be $2^{d-1}$, it follows by fact (A) that the number of nodes of depth $d$ is $2^{d-1}+2^{d-1}=2^d$.
+\end{itemize}
+% Now, let's assume that the nodes of each given depth are ordered ``left to right'', so that if $N,N'$ have the same depth, then $N$ precedes $N'$ iff either they have the same parent and $N$ is its first child, or the parent of $N$ precedes the parent of $N'$.  Each node now has a unique rank $(d,i)$ where $d$ is its depth and $i$ is its (1-indexed) position amongst all nodes of its depth.  Then
+% \begin{itemize}
+% \item[(D)] The \(i\)th node of depth \(d+1\) has index \(2^d+i\).  The node of rank $(1,1)$ is the first child of the root, so it has index $2=2^{d-1}+i$.  Now suppose the claim holds for all $(d',i')<(d,i)$ with $d>0$.  By (B), the number of nodes of depth at most $d$ is $2^d$, so that the first node of depth $d+1$ has index $2^d+1$.  
+% \end{itemize}
+Now, suppose that the node $N$ is the $i$th node of depth $d$.  
+By (C) above, there are $2^d-1$ nodes of depth less than $d$.
+So, $N$ has index $2^d+i-1$.  On the other hand, $N$ has $i-1$ predecessors at depth $d$,
+and every predecessor of $N$ has two children.
+So, the children of $N$ have $2(i-1)$ and $2(i-1)+1$ predecessors at depth $d+1$.
+Again using fact (C), it follows that they have indices
+$2^{d+1}-1+2(i-1)+1=2(2^d+i-1)=2n$ and $2^{d+1}-1+2(i-1) + 2=2n+1$ respectively.  This completes the proof of (A).
+
+Finally, let's return to the situation where the nodes are labeled with values of an arbitrary array $A$. Suppose that $N$ is labeled with $A[m]$, and that $n$ is the index of $N$.  By construction of the labeling, we must then have $A[m]=A[n]$.
+So, by (A) we get the generalization I promised earlier:
+\begin{itemize}
+\item[(D)] If node $N$ is labeled with $A[n]$, and if all predecessors of $N$ have two children, then the children of $N$ are labeled with $A[2n']$ and $A[2n'+1]$ for some $n'$ such that $A[n']=A[n]$.
+xf\end{itemize}
+\end{document}

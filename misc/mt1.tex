@@ -1,0 +1,495 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\date{}
+
+\begin{document}
+
+\hypertarget{math-l2}{%
+\section{Math (L2)}\label{math-l2}}
+
+\hypertarget{geometric-series}{%
+\subsection{Geometric series}\label{geometric-series}}
+
+\(\sum_{i=0}^\infty x^i = \frac{1}{1-x}\) whenever \(|x|<1\).
+
+\hypertarget{harmonic-series}{%
+\subsection{Harmonic series}\label{harmonic-series}}
+
+\(\sum_{k=1}^{n}\frac{1}{k} \sim \log n\)
+
+\hypertarget{stirling}{%
+\subsection{Stirling}\label{stirling}}
+
+\(\log n! \in \Theta(n\lg n)\)
+
+\hypertarget{binomial-theorem}{%
+\subsection{Binomial theorem}\label{binomial-theorem}}
+
+\hypertarget{master-theorem-l2}{%
+\subsection{Master Theorem (L2)}\label{master-theorem-l2}}
+
+Suppose \(T(n) = aT(n/b) + f(n)\).
+
+For any \(\epsilon > 0\), - if \(f(n) \in O(n^{\log_b a - \epsilon})\),
+then \(T(n) \in \Theta(n^{\log_b a})\); - if
+\(f(n) in \Theta(n^{\log_b a})\), then
+\(T(n) \in \Theta(n^{\log_b a} \log n)\); - if
+\(f(n) in \Omega(n^{\log_b a + \epsilon})\), then
+\(T(n) \in \Theta(f(n))\).
+
+\hypertarget{binary-trees-l3}{%
+\subsection{Binary trees (L3)}\label{binary-trees-l3}}
+
+\begin{itemize}
+\tightlist
+\item
+  a complete binary tree with \(n\) levels has \(2^n - 1\) nodes
+\item
+  a pre-heap is the result of deleting zero r more leaves consecutively
+  from the right of a complete binary tree
+\item
+  represent pre-heap as an array \(A\) with length equal to number of
+  nodes, so that
+
+  \begin{itemize}
+  \tightlist
+  \item
+    root has index \(1\)
+  \item
+    the left, right children have indices \(2n\), \(2n+1\)
+  \end{itemize}
+\item
+  a preheap with \(H\) levels has at least \(2^{H-1}\) and at most
+  \(2^{H}-1\) nodes
+\item
+  a preheap with \(H\) levels has at most \(2^{H-1}\) leaves, because
+
+  \begin{itemize}
+  \tightlist
+  \item
+    it has at most \(2^{H}-1\) nodes, and
+  \item
+    a pre-heap with \(n\) nodes has \(\lceil n\rceil\) nodes
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{heaps-l3}{%
+\subsection{Heaps (L3)}\label{heaps-l3}}
+
+\begin{itemize}
+\tightlist
+\item
+  a heap is a labeled binary tree, such that
+
+  \begin{itemize}
+  \tightlist
+  \item
+    as a tree it's a pre-heap, and
+  \item
+    the key of each node is greater than those of its children
+  \end{itemize}
+\item
+  operations are
+
+  \begin{itemize}
+  \tightlist
+  \item
+    HEAPIFY(A,i)
+
+    \begin{itemize}
+    \tightlist
+    \item
+      transforms a preheap A so that the subtree rooted at i is a heap
+    \item
+      swaps A{[}i{]} with the larger of left/right child if it's larger
+      than A{[}i{]},, then recurses
+    \item
+      running time is \(O(\log n)\) where \(n\) is the length of \(A\)
+    \end{itemize}
+  \item
+    BUILD\_HEAP(A)
+
+    \begin{itemize}
+    \tightlist
+    \item
+      transforms preaheap A into a heap
+    \item
+      calls HEAPIFY(A,i) iteratively backward from i=len(A)/2 to i=1
+    \item
+      running time is \(O(n)\) where \(n\) is the length of \(A\)
+    \end{itemize}
+  \end{itemize}
+\item
+  heap data structure supports sorting method
+
+  \begin{itemize}
+  \tightlist
+  \item
+    HEAPSORT(A)
+
+    \begin{itemize}
+    \tightlist
+    \item
+      sorts pre-heap A
+    \item
+      implementation
+
+      \begin{itemize}
+      \tightlist
+      \item
+        BUILD\_HEAP(A)
+      \item
+        from i=A.len to i=2
+
+        \begin{itemize}
+        \tightlist
+        \item
+          exchange A{[}i{]}, A{[}1{]}
+        \item
+          decrement heap-size
+        \item
+          call HEAPIFY(A, 1)
+        \end{itemize}
+      \end{itemize}
+    \item
+      running time O(n \log n)
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{priority-queues-l3}{%
+\subsection{Priority Queues (L3)}\label{priority-queues-l3}}
+
+\begin{itemize}
+\tightlist
+\item
+  generally useful ADT with these operations
+
+  \begin{itemize}
+  \tightlist
+  \item
+    INSERT, MAX, EXTRACT\_MAX, INCREASE\_KEY
+  \end{itemize}
+\item
+  heap implementation like this
+
+  \begin{itemize}
+  \tightlist
+  \item
+    EXTRACT\_MAX
+
+    \begin{itemize}
+    \tightlist
+    \item
+      swap first and last elements
+    \item
+      decrement length
+    \item
+      heapify on root
+    \item
+      return last element
+    \end{itemize}
+  \item
+    INCREASE\_KEY
+
+    \begin{itemize}
+    \tightlist
+    \item
+      assign new (larger) key
+    \item
+      while larger than parent: exchange with parent
+    \end{itemize}
+  \item
+    INSERT
+
+    \begin{itemize}
+    \tightlist
+    \item
+      append to array, then ``float up'' as in INCREASE\_KEY
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{quicksort-l4}{%
+\subsection{Quicksort (L4)}\label{quicksort-l4}}
+
+\begin{itemize}
+\tightlist
+\item
+  another sorting routine
+
+  \begin{itemize}
+  \tightlist
+  \item
+    implementation of QUICKSORT(A,p,r) like this:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      while p \textless{} r:
+
+      \begin{itemize}
+      \tightlist
+      \item
+        q = PARTITION(A,p,r)
+      \item
+        QUICKSORT(A,p,q-1)
+      \item
+        QUICKSORT(A,p,q+1)
+      \end{itemize}
+    \end{itemize}
+  \item
+    implementation of PARTITION(A,p,r)
+
+    \begin{itemize}
+    \tightlist
+    \item
+      take A{[}r{]} to be the ``pivot element''
+    \item
+      set left-right boundary to be 0
+    \item
+      for i = 1 to r-1:
+
+      \begin{itemize}
+      \tightlist
+      \item
+        if A{[}i{]} \textless{} pivot
+
+        \begin{itemize}
+        \tightlist
+        \item
+          increment left-right boundary
+        \item
+          swap A{[}i{]} with the value at the new left-right boundary
+        \end{itemize}
+      \end{itemize}
+    \item
+      swap A{[}r{]} with the first value after the left-right boundary
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{lower-bound-on-comparison-sorting-l5}{%
+\subsection{Lower bound on comparison sorting
+(L5)}\label{lower-bound-on-comparison-sorting-l5}}
+
+\begin{itemize}
+\tightlist
+\item
+  any sort implemented with a binary decision tree has worst-case
+  Omega(n\log n)
+\end{itemize}
+
+\hypertarget{bucketsort-l6}{%
+\subsection{Bucketsort (L6)}\label{bucketsort-l6}}
+
+\begin{itemize}
+\tightlist
+\item
+  suppose A contains n integers uniformly drawn from 1..M with
+  M\textgreater n
+\item
+  allocate values into n buckets, each upper bounded by M/n, 2M/n ..
+  nM/n
+\item
+  this has running time O(n)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    basically, constant time to put each number in its bucket
+  \item
+    and constant time to sort each bucket
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{medians-and-order-statistics-l6}{%
+\subsection{Medians and Order statistics
+(L6)}\label{medians-and-order-statistics-l6}}
+
+\begin{itemize}
+\tightlist
+\item
+  to get cth largest/smallest entry for constant c
+
+  \begin{itemize}
+  \tightlist
+  \item
+    can use HEAPIFY(A), then EXTRACT\_MAX/MIN for O(\log n)
+  \end{itemize}
+\item
+  but to get, e.g., median, this is O(n\log n), so might as well just
+  sort
+\item
+  RANDOMIZED\_SELECT(A,i) uses PARTITION but, only on the side of the
+  desired entry position
+
+  \begin{itemize}
+  \tightlist
+  \item
+    this runs in O(n) time
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{graphs-paths-and-trees-l7}{%
+\subsection{Graphs, paths and trees
+(L7)}\label{graphs-paths-and-trees-l7}}
+
+\begin{itemize}
+\tightlist
+\item
+  a path is a sequence of vertices of a graph, connected by edges
+\item
+  it is simple iff it contains no vertex more than once
+\item
+  a loop is a path with same first and last vertex
+\item
+  a simple loop is a path containing at least 3 nodes such that
+
+  \begin{itemize}
+  \tightlist
+  \item
+    its first (=last) node occurs exactly twice
+  \item
+    no other node occurs more than once
+  \end{itemize}
+\item
+  a tree is a connected undirected graph with no simple loops
+
+  \begin{itemize}
+  \tightlist
+  \item
+    there is exactly one simple path from any node to any other
+  \end{itemize}
+\item
+  a rooted tree is a tree with one vertex distinguished as its root
+
+  \begin{itemize}
+  \tightlist
+  \item
+    node x is ancestor of node y if the path from root to y contains x
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{traversing-binary-trees-l7}{%
+\subsection{Traversing binary trees
+(L7)}\label{traversing-binary-trees-l7}}
+
+\begin{itemize}
+\tightlist
+\item
+  modes of traversal
+
+  \begin{itemize}
+  \tightlist
+  \item
+    preorder: node, then left, then right
+
+    \begin{itemize}
+    \tightlist
+    \item
+      lambda f(x): g(x) f(x.left) f(x.right)
+    \end{itemize}
+  \item
+    inorder: left, then node, then right
+
+    \begin{itemize}
+    \tightlist
+    \item
+      lambda f(x): f(x.left) g(x) f(x.right)
+    \end{itemize}
+  \item
+    postorder: right, then node, then left
+
+    \begin{itemize}
+    \tightlist
+    \item
+      lambda f(x): f(x.left) f(x.right) g(x)
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{binary-search-trees-l7}{%
+\subsection{Binary Search Trees (L7)}\label{binary-search-trees-l7}}
+
+\begin{itemize}
+\tightlist
+\item
+  a binary search tree is a binary tree such that
+
+  \begin{itemize}
+  \tightlist
+  \item
+    each descendant of the left child of x is no greater than x
+  \item
+    each descendant of the right child of x is no less than x
+  \end{itemize}
+\item
+  the successor of a node x is the node after x according to inorder
+  traversal
+\item
+  facts about successor:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    succ(x) is either an ancestor or a descendant of x
+  \item
+    if x has a right child, then succ(x) is the leftmost in the right
+    subtree rooted at x
+  \item
+    otherwise, if x has a successor, then this is the least ancestor of
+    x such that x descends from the left child of x
+  \item
+    the operations FIND, MIN, MAX, PRED, SUC are all O(h) for h the
+    height
+  \item
+    the expected cost of search is O(log(n)) for n the number of nodes
+  \end{itemize}
+\end{itemize}
+
+\end{document}

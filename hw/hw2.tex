@@ -1,0 +1,296 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\date{10 February 2020}
+\title{CS 624 - HW 2}
+\author{Max Weiss}
+\begin{document}
+\maketitle
+
+\paragraph{1.} 
+% First, let's say that the class $\mathcal B$ of binary trees (over some domain $\mathcal U$) is the smallest class $X$ such that (i) $\mathcal U\subseteq X$ and (ii) if $x,y\in \mathcal B$ then also $(x,y)\in \mathcal B$.  (I assume $(x,y)\not\in \mathcal U$ for all $x,y\in \mathcal U$).
+
+% It follows that if $Y$ satisfies (i) and (ii), then $X\subseteq Y$.  Therefore, 
+% \begin{align}
+%   \label{eq:treeInduction}
+%   \forall x(x\in \mathcal U\to Px)
+%   \to
+%   \forall x(Px \to \forall y Py \to P(x,y)) \to \forall x(x \in \mathcal B\to Px).
+% \end{align}
+% In other words, to show that every binary tree satisfies $P$, it suffices to show that the class of all objects satisfying $P$ satisfies (i) and (ii).  
+
+Suppose that $x$ is a binary tree.  I'll write $c(x)$ for the set of trees rooted at child nodes of $x$.  Every binary tree belongs to the smallest set $X$ such that (i) each singleton tree belongs to $X$, and (ii) if $y\in X$ for all $y\in c(x)$, then $x\in X$.  So, to show that some predicate $P$ holds of all binary trees, it suffices to show
+\begin{equation}
+  \label{eq:treeInduction}
+  \forall x (Sx\to Px) \land \forall x(\forall y(y\in c(x)\to Py)\to Px)
+\end{equation}
+where $S$ defines the class of singleton trees.
+
+I'll also write $c^*(x)$ for the smallest set $X$ such that $x\in X$ and $y\in X$ for all $y\in c(x)$.  It follows that
+\begin{align}
+  \label{eq:childInduction}
+  \forall x
+  (Px \to \forall y (Py\to \forall z(z\in c(y)\to Pz))
+  \to
+  \forall y(y\in c^*(x)\to Py)).
+\end{align}
+
+Let's say that a predicate $P$ \emph{perists downward} provided that $Py$ follows from $y\in c(x)$ and $Px$.  For a lemma, let me argue that the property of being a pre-tree is preserved downward.  So, suppose that $x$ is a pre-tree, and that $y,z$ are the trees rooted at the left and right children of $x$.  Then there are four possibilities: $y,z$ are complete of height $n$, or they are complete of heights $n,\,n-1$, or $y$ is complete of height $n$ and $z$ is a pretree of height $n$, or $y$ is a pretree of height $n$ and $z$ is complete of height $n-1$.  In any case, both $y$ and $z$ are pretrees, as required.
+
+Finally, for the main claim to be proven: suppose that $P$ persists downward, that $Q$ is true of all singleton trees, and that $H_1, H_2, P, Q$ are predicates satisfying
+\begin{align}
+  \label{def1}
+  H_1x
+  &\leftrightarrow
+    Px\land \forall y(c^*(y)\to Qy)\\
+  \label{def2}
+  H_2x
+  &\leftrightarrow
+    Px\land Qx \land \forall y(y\in c(x)\to H_2y).
+\end{align}
+I'll argue that $H_1x\leftrightarrow H_2x$ for all binary trees $x$.
+
+$\Leftarrow$.  I'll use the induction (\ref{eq:treeInduction}).  The claim is clear for singletons.  So, assume that $H_1x$ holds.  From (\ref{def1}), it follows that $H_1x$ implies $Px$ and also $Qx$.  By (\ref{def2}), it therefore remains to show $\forall y(y\in c(x)\to H_2y)$.
+
+So, assume $y\in c(x)$; I will first argue that $H_1y$.  Since $P$ persists downward, we do have $Py$.  Furthermore, $c^*(y)\subseteq c^*(x)$, which implies that $\forall z(z\in c^*(y)\to Qz)$.  So by (\ref{def1}), $H_1y$ does hold.  By induction hypothesis, we can thus infer $H_2y$ as required.
+%Suppose $H_1x$ holds; this implies that $Px$ and $Qx$ hold as well.
+% It remains to show that $\forall y(y\in c(x)\to H_2y)$.  So suppose $y\in c(x)$.
+% Since $P$ persists downward while $Px$ and $y\in c(x)$, we therefore get $Py$.
+% Furthermore, $y\in c(x)$ implies $y\in c^*(x)$ and so by $H_1x$ we have $Qy$ as well.
+
+$\Rightarrow$.  Suppose that $H_2x$ holds;  I will argue for $H_1x$.  From (\ref{def2}), it is immediate that $Px$ holds.  So by (\ref{def1}), it remains to establish $\forall y(y\in c^*(x)\to Qy)$.  Using the induction (\ref{eq:childInduction}) on $c^*(x)$ it will be easier to prove $\forall y(y\in c^*(x)\to H_2y)$.  So, first suppose $y=x$; then $H_2y$ amounts to $H_2x$, and this we assumed at the outset. On the other hand, given $H_2y$, the third clause of the (\ref{def2}) immediately implies $H_2z$ for any $z\in c(y)$.  This completes the proof that $H_2y$ holds for all $y\in c^*(x)$, as desired.
+
+
+\paragraph{2 (6.5.8, p166.}  Suppose we extend the ordering of keys (i.e., the ordering on the natural numbers, if that's what the keys are) so that $\infty>k$ for every key $k$, where $\infty$ is some new symbol.  Now consider the following algorithm:
+% Now, recall that $\textsc{Heapify}(A,i)$ has the property that if each child of node $i$ is the root of a heap, then the resulting tree rooted at $i$ is also a heap.  Furthermore, if $A$ is a heap, then the key of the parent of $i$ (if it has one) must be greater than $A[i]$, while all children of $i$ must have keys smaller than $i$.  These conditions both remain true when the key of node $i$ is replaced with $-\infty$.  
+% So, an algorithm to implement deletion of the $i$th element of the max-heap $A$ can be given like this:
+\begin{verbatim}
+    heap_increase_key(A, i, infinity)
+    heap_extract_max(A)
+\end{verbatim}
+
+% \begin{algorithmic}[1]
+%   \STATE $A[i]\leftarrow \infty$
+%   \STATE $\textsc{Heap-Increase-Key}(A, i, \infty)$
+%   \STATE $\textsc{Heap-Extract-Max}(A)$
+% \end{algorithm}[1]
+Since $\infty>A[i]$, the result of line 1 is that $A$ is a heap whose elements are precisely those of $A$ except with $\infty$ in place of $A[i]$.  Since $\infty>k$ for all keys $k$ of nodes in $A$, therefore the result of line 2 is that $A$ is a heap whose elements are precisely those of $A$ except without $A[i]$.  Therefore, the given algorithm implements $\textsc{Heap-Delete}$.
+
+\paragraph{3 (6.5.9, p166).} If $A,B$ are heaps, write $A<B$ if $A[1]<B[1]$.
+In the below, I assume that $H$ is an array of $k$ heaps with $n$ total elements.
+\begin{verbatim}
+    Z = MaxHeap()
+    S = [None]*n
+    for L in H:
+        maxheap_insert(Z, L)
+    for i in 1 .. n+1:
+        L = maxheap_extract_max(Z)
+        x = L.pop()
+        S[i] = x
+    if L is not empty:
+        maxheap_insert(Z, L)
+\end{verbatim}
+% \begin{algorithmic}[1]
+%   \REQUIRE{$H$ is an array of $k$ heaps with $n$ total elements}
+%   \ENSURE{$S$ is a sorted array of all elements of heaps in $H$}
+%   \STATE $Z\leftarrow\textsc{MaxHeap-Initialize}\langle \textsc{Heap}, <\rangle()$
+%   \STATE $S\leftarrow\textsc{List-Initialize}(n)$
+%   \STATE $H$.iter().foreach($|L|\textsc{MaxHeap-Insert}(L, X)$)
+%   \FOR{$i$ in $1..n$}
+%   \STATE $L\leftarrow \textsc{MaxHeap-Extract-Max}(Z)$
+%   \STATE $x\leftarrow L.\text{pop}()$
+%   \STATE $S[i]\leftarrow x$
+%   \IF{$M$ is not empty}
+%   \STATE $\textsc{MaxHeap-Insert}(Z, M)$
+%   \ENDIF
+%   \ENDFOR
+% \end{algorithmic}
+This algorithm breaks into two tasks: first, inserting the $k$ heaps into the meta-heap $Z$, and second, inserting elements of the heaps into the array $S$.  
+
+The first task requires $k$ insertions into a heap of size at most $k$; hence it is in $O(k\lg k)$.  The second task requires $n$ iterations of (at most) the following: heap-extract the minimum $L$ from $Z$; pop the last (maximum) $x$ from $L$ and array-insert $x$ into $S$; and heap-insert $L$ back into $Z$.  Since $Z$ has size at most $k$, the heap-insertions and extractions are $O(\lg k)$, while the list operations are constant time.  Consequently, the second task is $O(n\lg k)$.  So, the whole thing is $O(n\lg k)$.
+
+\paragraph{4 (6.1, lecture 3).} Let $S$ be an unsorted array of $n$ distinct elements.  Consider the following algorithm:
+\begin{verbatim}
+    build_min_heap(S)
+    R = []
+    for _ in 0 .. k:
+        R.push(minheap_extract_min(S))
+\end{verbatim}
+The first line of the algorithm converts $S$ into a MinHeap.  I'll now argue that the $i$th iteration of the loop satisfies this invariant: 
+\begin{itemize}
+\item $S$ is a MinHeap
+\item each element of $R$ is less than all elements of $S$
+\item $R$ has $i$ elements and $S$ has $n-i$ elements
+\end{itemize}
+This is clear for $i=0$, so suppose it holds for $i$.  Since $S$ is now a heap with $n-i$ elements, the effect of calling \textsc{MinHeap-Extract-Min} is to convert $S$ into a heap with $n-i-1$ elements and to return the smallest element $x$ of those.  So when $x$ is pushed onto $R$, the result is that $R$ contains $i+1$ elements, all of which are smaller than all elements of $S$.  This establishes the invariant.  It follows that after the prescribed $k$ loop iterations, $R$ contains the $k$ smallest elements of the originally given set, as desired.
+
+As for running time: the call to \textsc{Build-MinHeap} is $O(n)$, while each of the $k$ calls to \textsc{MinHeap-Extract-Min} (and push of the result onto a list) costs $\lg n$.  So, the overall running time is $O(n + k\lg n)$.
+
+\paragraph{5 (7.3.2, p180).} 
+There is roughly one call to $\textsc{Random}$ per call to $\textsc{Partition}$.  So, the question amounts to how many calls to $\textsc{Partition}$ there are in the worst and best cases.  
+It is tempting simply to count the number of $\textsc{Partition}$ calls in the worst and best cases for the running time of \textsc{QuickSort}.  However, the contributions to running time of those calls are weighted by the size of the subarrays they transform.  Here, we are considering a notion of ``running time'' where the contributions are unweighted.
+
+The worst case cannot generate more than $n$ calls to \textsc{Partition}, since each call consumes an element of the input array as its pivot.  Conversely, if the random number generator always returns the largest possible array index, then all $n$ calls will be issued.  So, the worst case requires $n$ calls to \textsc{Random}. 
+
+% As for the best case, let's suppose the algorithm is slightly optimized, so that it invokes \textsc{Random} only for input subarrays of size $>1$.  The question then comes to this: what is the fewest number of calls to \textsc{Partition} we could make to bring the array into a state where no further calls to \textsc{Random} are necessary?    The state of the array at any point in the process can be visualized by marking as black those cells which have been used as pivots.  Then, we need no further calls to \textsc{Random} precisely when no two consecutive cells are unmarked.  The smallest number of marks required to ensure satisfaction of that condition is $n/2$.  (Interestingly, such a state could be reached in ways that resemble either the ``best'' or the ``worst'' case for the running time of \textsc{Quicksort} itself).
+
+On the other hand, in any case it is clear that every array entry eventually gets used as a pivot (even if only on a length-one subarray), so each array entry requires at least one unique call to \textsc{Random}.  So, the best case cannot improve on $n$ calls to $\textsc{Random}$, and any best case is a also worst case.  From this, I conclude that the number of calls to $\textsc{Random}$ is $\Theta(n)$.
+
+This reasoning can be verified using the substitution method.  Let's write $T^g(n)$ for the running time on $n$ inputs given the random number generator $g$.  
+And suppose $\sup_gT^g(k)= k = \inf_gT^g(k)$ for all $k<n$.  Then
+\begin{align*}
+  \sup_g T^g(n) &= \max_{0\leq q\leq n - 1}(T(q) + T(n-q-1)) + 1
+  \\
+                &=
+                  \max_{0\leq q\leq n-1}(q + n - q - 1) + 1
+  \\
+                &=
+                  n
+                  % \max_{0\leq q\leq n-1} n
+  \\
+                &=
+                  \min_{0\leq q\leq n-1} (q + n - q - 1) + 1
+  \\
+                &=
+                  \min_{0\leq q\leq n-1} (T(q) + T(n-q-1)) + 1
+  \\
+                &=
+                  \inf_gT^g(n).
+\end{align*}
+
+\paragraph{6a (7.4, p188).}  I will argue by induction on $r-p$ that upon conclusion of $\textsc{TR-Quicksort}(A, p, r)$, the array $A[p..r+1]$ is correctly sorted.  The claim is trivial for $r-p = 0$.  So, suppose that it holds for all $t < r-p$.  Let's write $\hat p$ for the lower array index $p$ on which $\textsc{TR-Quicksort}$ is initially called. 
+I will now argue, by an inner induction on $i$, that the $i$th call to $\textsc{TR-Quicksort}(A, p, r)$, as generated by $\textsc{TR-Quicksort}(A, \hat p, r)$, satisfies the following invariant: 
+\begin{itemize}
+\item[(1)] $p\geq\hat p+i$, 
+\item[(2)] $A[\hat p..r+1]$ is partitioned with pivot $p-1$,
+\item[(3)] $A[\hat p..p]$ is sorted.
+\end{itemize}
+From this invariant, it will follow that after at most $r - \hat p$ iterations, $A[\hat p..r]$ is sorted.  The condition is trivial for $i=0$, so suppose it holds for $i$; I'll argue that it holds for $i+1$.
+
+By the inner induction hypothesis, we can assume that where $p_0$ is the value of $p$ after the $i$th step, the following hold: 
+\begin{itemize}
+\item[(1)] $p_0\geq\hat p+i$, 
+\item[(2)] $A[\hat p..r+1]$ is partitioned with pivot $p_0-1$,
+\item[(3)] $A[\hat p..p_0]$ is sorted.
+\end{itemize}
+
+Observe that the correctness of $\textsc{Partition}$ ensures that after execution of line 3 of the pseudocode, we have that $A[p_0..r+1]$ is partitioned with $q$ as pivot. It also implies that $q - 1 < r$.  So, from the outer induction hypothesis, we can infer that $\textsc{TR-Quicksort}(A, p_0, q-1)$ is correct. So after line 4, the subarray $A[p_0..q]$ must be sorted.  Since $q$ was pivot of a correct partition call on line 3, this sort actually covers $A[p_0..q+1]$.  And indeed, by combining this result with clauses (2) and (3) of the inner induction hypothesis, it follows that after line 4, it is all of the subarray $A[\hat p..q+1]$ which must be sorted.
+
+The last line of the pseudocode is the assigment $p=q+1$.  Since $A[\hat p..q+1]$ is sorted, this confirms invariant clause (3) for step $i+1$.  Moreover, since $q$ was pivot of a correct partition on $A[p_0..r+1]$, and since $A[\hat p..q+1]$ is sorted, therefore $p-1 = 1$  is a pivot of a correct partition on $A[\hat p..r+1]$, confirming invariant (2).  Finally, since $q\geq p_0\geq\hat p+i$, it follows that $p=q+1\geq\hat p + i + 1$, which confirms clause (1).  
+
+\paragraph{6b (7.4, p188).} Suppose that the array $A[1..n+1]$ is already sorted.  This will then require $n$ nested calls to $\textsc{TR-Quicksort}$, and so the maximum stack depth can be as bad as $O(n)$.
+
+\paragraph{6c (7.4, p188).} Not sure how to guarantee a logarithmic bound on the stack depth without turning the algorithm into mergesort\ldots.
+
+
+
+\paragraph{7.} Let $x$ be a binary tree, and let $d$ be the depth of $x$.  Let me write $|x|$ for the number of nodes of $x$.  I will use the lemma (\ref{eq:treeInduction}) from question 1 to prove the stronger claim that 
+\begin{equation}
+  \label{eq:7}
+  |x|\leq 2^{d}-1.
+\end{equation}
+If $x$ is a singleton, then $x$ has one node, and depth $1$; hence $x$ has at most $1=2^d-1$ leaves.  So, suppose that (\ref{eq:7}) is satisfied by all trees rooted at children of $x$. Those trees must have at most depth $d-1$ (this follows from the definition of depth).  Furthermore, there are at most two such trees.
+Thus,
+\begin{align}
+  \label{eq:7x}
+\nonumber
+  \sum_{y\in c(x)}|y|
+  \;&\leq \;
+    2^{d-1} - 1 + 2^{d-1} - 1 \\ 
+  \;&=\;
+    2^d-2.
+\end{align}
+Meanwhile,
+\begin{equation}
+  \label{eq:7b}
+|x| \;\leq \;
+  1 + \sum_{y\in c(x)}|y|.
+\end{equation}
+The desired result is immediate from (\ref{eq:7x}) and (\ref{eq:7b}).
+
+
+\paragraph{7 redux.} As suggested in the homework, it is also possible to prove the result using ``mathematical induction'', i.e., to deduce (\ref{eq:7}) from the induction principle
+\begin{equation}
+  \label{eq:numInduction}
+  P0 \land \forall x(Nx \land Px\to Px')\to \forall x(Nx\to Px)
+\end{equation}
+where $N$ defines $\mathbb N$ and $x'$ represents the successor of $x$.
+
+\paragraph{7a.} Hmm\ldots.  The induction principle (\ref{eq:numInduction}) requires the provability of $\forall x(Nx\land Px\to Px')$.  It is \emph{not} sufficient to have the proability both of $P0$ and of each statement $P0\land\ldots\land Pn\to Pn'$.
+
+Suppose that $T$ is a consistent, recursively enumerable set of axioms sufficient to carry out a reasonable amount of arithmetic.  And, let $A[x]$ be a formula which expresses (roughly) ``$x$ is not the code of a proof that $T$ is consistent.''  Then it holds both that $T$ proves $A[0]$, and also that $T$ proves $A[0]\land\ldots\land A[n]\to A[n+1]$ (of course, $T$ proves $A[n]$ outright for all $n$), but it is not the case that $T\vdash \forall xA$.  
+
+%% G\"odel's first incompleteness theorem says that if $T$ is a consistent extension of primitive recursive arithmetic, then there is a formula $A$ such that $T\vdash A[n]$ for all $n$, but $T\not\vdash \forall xA$.  So, this is not really true.
+
+%% The suggested statement is equivalent to the countable conjunction
+%% \begin{equation}
+%%   \label{eq:7a}
+%%   \bigwedge_{d\in \mathbb N} \forall x\in \mathcal B(d=\text{depth}(x)\to |x|\leq 2^d).
+%% \end{equation}
+%% where $\mathcal B$ is the class of binary trees.
+\paragraph{7b.} I'll use the induction (\ref{eq:numInduction}) to prove
+\begin{equation}
+  \label{eq:7g}
+  \forall d\in \mathbb N\, \forall x\in \mathcal B(d=\text{depth}(x)\to |x|\leq 2^d).
+\end{equation}
+Here we must use the property $Pd$ defined by
+\begin{equation}
+  \label{eq:7r}
+  d>0 \to \forall x\in \mathcal B(d=\text{depth}(x) \to |x|\leq 2^{d}-1).
+\end{equation}
+The case $P0$ is vacuous and the case $P1$ is trivial.  So suppose $d$ satisfies (\ref{eq:7r}); we need to show that $d+1$ satisfies this as well.  To this end, pick $x\in \mathcal B$ such that $d+1=\text{depth}(x)$ with $d>0$.  The children of $x$ must have depths at most $d$.  By (\ref{eq:numInduction}), we may thus assume each child has at most $2^d-1$ nodes. The sum of the numbers of nodes of the children is therefore at most $2^{d+1} - 2$, while the number of nodes of $x$ is one more than that sum. Hence the number of nodes of $x$ is at most $2^{d+1} - 1$, as desired.
+
+\paragraph{7c.} The sketched line of reasoning would prove at most 
+\begin{equation*}
+  \forall d\in \mathbb N\, \exists x\in \mathcal B(d=\text{depth}(x)\land |x|\leq 2^d - 1)
+\end{equation*}
+which does not imply (\ref{eq:7g}).
+
+\end{document}
+
+
+
+

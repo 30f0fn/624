@@ -1,0 +1,5 @@
+- How should choice of Phi be guided by the datastructure and procedure?
+- Is Phi well-defined?
+- For a given procedure P and initial datastructure D_0, is there an absolute notion of "amortized cost" of the nth application of P?  Or, is it relative, in particular 
+    - to choice of analytical framework ("aggregate analysis" vs "accountant's/physicist's method"?  E.g., in section 1.1, amortized cost of the nth step is simply the *average* of the costs of the first n steps.  But in section 1.2, amortized cost of the nth step is defined as the amount charged by the accountant's analysis for the nth operation
+    - to choice of the bounding function in an analysis?  E.g., there are infinitely many charging schemes such that the accumulated charges are never less than the accumulated actual costs.

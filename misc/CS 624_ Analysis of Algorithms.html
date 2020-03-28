@@ -1,0 +1,868 @@
+<head>
+<link href="../stylesheets/defaults.css" rel="stylesheet" type="text/css"/>
+<title>CS 624: Analysis of Algorithms</title>
+</head>
+
+<body>
+<center>
+<b>
+CS 624: Analysis of Algorithms
+<br><p/>
+</b>
+Carl Offner
+<br><p/>
+Spring 2020
+</center>
+<p/>
+office:  M-3-0201-31 <br>
+email: offner "at" cs.umb.edu
+<p/>
+
+In addition to this web page, I will put my lectures and other materials in the
+directory ~offner/cs624 and subdirectories under it.  Feel free to poke around
+there.  Anything there (or under there) is for you to take.  (Note that these
+are not web pages&mdash;they are ordinary files, and you have to log in to your
+cs.umb.edu account to access them.)
+
+<!-- <div id=emph_border> -->
+
+<!--   <p>Due to a family emergency, I will be out of town on Monday, February 3, so -->
+<!--   we will not have class then.  The homework that was due then is now due on -->
+<!--   Wednesday, and we will discuss on Wednesday how to make up the missed -->
+<!--   time.</p> -->
+
+<!--   <p>If you want to start reading ahead, we will be covering Chapter 6 on -->
+<!--   Wednesday.  My notes for that are in the usual place: -->
+<!--   ~offner/cs624/lectures.</p> -->
+
+<!-- </div> -->
+
+
+<p/>
+<hr>
+
+<b>Assignments: </b><p/>
+
+[[ Assignments will be posted here. ]]
+
+
+<!-- <p> -->
+<!-- <ul> -->
+  
+<!--   <li>Week 1: -->
+
+<!--     <ul> -->
+<!--       <li>Reading: -->
+
+<!--       <ul> -->
+
+<!--         <li> Monday: Chapters 1-2 of the text.</li> -->
+
+<!--         <li> Wednesday: Chapters 3-4 of the text (read 4.1 quickly; you can -->
+<!--         skip 4.2 and 4.6).</li> -->
+
+<!--       </ul></li> -->
+  
+<!--       <li><a href="http://www.cs.umb.edu/~offner/cs624/assignments/a01.pdf"> -->
+<!--       Assignment</a> due February 4: Introduction, some preliminary examples -\-> -->
+<!--       of analysis of algorithms, order of growth of functions, recursions -->
+<!--       and growth of their solutions, generating functions.</li> -->
+<!--     </ul> -->
+<!--   </li> -->
+
+  
+<!--   <li>Week 2: -->
+<!--     <ul> -->
+<!--       <li>Reading: -->
+<!--         <ul> -->
+<!--           <li>Monday:  Chapter 6 of the text (Heapsort).</li> -->
+
+<!--           <li>On or before Wednesday: -->
+<!--             <ul> -->
+
+<!--               <li>The first 5 pages of my expository paper "Some Early Analytic -->
+<!--                 Number Theory", which you can find on my web page.  This is not -->
+<!--                 hard reading, and quite likely you have seen it before when you -->
+<!--                 took calculus, but in any case it is essential for what we are -->
+<!--                 going to be doing this week (on Wednesday) and next week.</li> -->
+
+<!--               <li>The handout "Harmonic Numbers".  This is available with the -->
+<!--                 rest of the lectures.  You have to read the previous item first -->
+<!--                 to understand this.</li> -->
+<!--             </ul> -->
+<!--           </li> -->
+
+<!--           <li>Wednesday: Chapter 7 of the text (Quicksort).</li> -->
+<!--         </ul> -->
+<!--       </li> -->
+
+<!--       <li><a href="http://www.cs.umb.edu/~offner/cs624/assignments/a02.pdf"> -->
+<!--           Assignment</a> -->
+<!--         due February 11:  Heaps, Heapsort, Priority Queues, Quicksort </li> -->
+    
+<!--     </ul> -->
+<!--   </li> -->
+
+<!--   <li>Week 3: -->
+
+<!--   <ul> -->
+  
+<!--     <li>Reading: -->
+
+<!--     <ul> -->
+
+<!--       <li>Monday: -->
+<!--       <ul> -->
+<!--         <li>Chapter 8 of the text (Sorting in Linear Time).</li> -->
+
+<!--         <li>The class notes, of course and also the handout "Stirling's -->
+<!--         Formula", which is available in the usual place.</li> </ul> -->
+
+<!--         <li>Wednesday: Chapter 9 of the text (Medians and Order Statistics).</li> -->
+<!--       </ul> -->
+
+<!--       <li><a href="http://www.cs.umb.edu/~offner/cs624/assignments/a03.pdf"> -->
+<!--       Assignment</a> -->
+<!--       due Monday, February 18: Lower bound for comparison sorting; some -->
+<!--       miscellaneous problems.</li> -->
+      
+<!--     </ul> -->
+
+<!--   </li> -->
+
+
+
+
+
+
+<!--   <div id=emph_border> -->
+    
+<!--     Please note: February 18 is Presidents Day, and there is no class that -->
+<!--     day.  So please make sure to email me your papers by 5 PM on February 18, -->
+<!--     and that way I will be able to return them in class on Wednesday.  This is -->
+<!--     important; I will not accept late papers. -->
+
+<!--   </div> -->
+
+
+
+
+  
+<!--   <li>Week 4: -->
+  
+<!--     <ul> -->
+<!--       <li> Reading: -->
+
+<!--       <ul> -->
+
+<!--         <li> Wednesday: Chapter 12 of the text (Binary Search Trees).  In -->
+<!--           addition to the class notes, I have placed some notes on "Convex -->
+<!--           Functions" in the same place as the other lectures.  Please read as -->
+<!--           much of these notes on convex functions as you can <b>before</b> class -->
+<!--           on Wednesday.</li> -->
+
+<!--         <\!-- <li> -\-> -->
+<!--         <\!--   <p>Wednesday: Chapter 15 of the text (Dynamic Programming).  My notes -\-> -->
+<!--         <\!--     that I will hand out for this topic are actually done somewhat -\-> -->
+<!--         <\!--     differently than what the book does, although there is a lot of -\-> -->
+<!--         <\!--     overlap.  But I would strongly suggest reading my notes first.</p> -\-> -->
+
+<!--         <\!--   <p>We will start this topic this week and finish it up in the class -\-> -->
+<!--         <\!--     next week.  Everything we do will be covered in this one -\-> -->
+<!--         <\!--     handout.</p></li> -\-> -->
+
+<!--       </ul> -->
+
+<!--       <li><a href="http://www.cs.umb.edu/~offner/cs624/assignments/a04.pdf"> -->
+<!--       Assignment</a> -->
+<!--       due Monday, February 25: Problems on trees and binary search trees.</li> -->
+      
+
+<!--     </ul> -->
+<!--   </li> -->
+
+
+
+
+
+
+<!--   <li>Week 5: -->
+<!--   <ul> -->
+<!--     <li>Reading: -->
+
+<!--     <ul> -->
+
+<!--       <li>Monday: Chapter 15 of the text (Dynamic Programming).  My notes that I -->
+<!--       will hand out for this topic are actually done somewhat differently than -->
+<!--       what the book does, although there is a lot of overlap.  But I would -->
+<!--       strongly suggest reading my notes first.</li> -->
+
+<!--       <\!-- <li>      No class (Presidents Day)</li> -\-> -->
+
+<!--       <li>Wednesday: We finish up the topic of Dynamic Programming.</li> -->
+
+<!--       <\!-- <li>Chapter 17 of the text (Amortized Analysis).  You can skip the -\-> -->
+<!--       <\!-- discussion of Multipop (for stacks) and Section 17.4.2 (on deleting -\-> -->
+<!--       <\!-- elements from a dynamic table).</li> -\-> -->
+
+<!--     </ul> -->
+
+<!--     </li> -->
+
+<!--     <li><a href="http://www.cs.umb.edu/~offner/cs624/assignments/a05.pdf"> -->
+<!--     Assignment</a> due Monday, March 4: Problems on dynamic programming.</li> -->
+<!--     <\!-- <li>No assignment this week.  Just review for the exam next Monday.</li> -\-> -->
+    
+
+<!--   </ul> -->
+<!--   </li> -->
+
+<!--   <li>Week 6: -->
+<!--   <ul> -->
+
+<!--     <li>Reading: -->
+
+<!--     <ul> -->
+
+<!--       <li>Monday: This was a snow day.</li> -->
+
+<!--       <li>Wednesday:  First mid-term exam.  It's "closed-book".  No books, no -->
+<!--       papers, no notes, no cell phones, ... .  Just bring something to write -->
+<!--       with.</li> -->
+
+<!--     </ul> -->
+
+<!--     <\!-- <li><a href="http://www.cs.umb.edu/~offner/cs624/assignments/a05.pdf"> -\-> -->
+<!--     <\!-- Assignment</a> due Monday, March 5: Problems on dynamic programming.</li> -\-> -->
+
+<!--   </ul> -->
+
+<!--   <li>Week 7: -->
+<!--     <ul> -->
+
+<!--       <li>Reading: -->
+
+<!--         <ul> -->
+
+<!--           <li>Monday: Chapter 17.  We start the topic of amortized analysis. -->
+<!--           You don't really have to read the entire chapter; just concentrate -->
+<!--           on the Lecture 10 handout.</li> -->
+
+<!--           <li>Wednesday:  We'll finish up our treatment of amortized analysis by -->
+<!--           covering the Sleator-Tarjan theorem on self-organizing lists. -->
+<!--           Everything will be in the handout, which is Lecture 11.</li> -->
+
+<!--         </ul> -->
+
+<!--       </li> -->
+
+<!--       <li><a href="http://www.cs.umb.edu/~offner/cs624/assignments/a06.pdf"> -->
+<!--       Assignment</a> due Monday, March 25: Problems on amortized analysis.</li> -->
+
+<!--     </ul> -->
+<!--   </li> -->
+
+<!--   <li>Week 8: -->
+<!--     <ul> -->
+
+<!--       <li>Reading: -->
+
+<!--       <ul> -->
+
+<!--           <li>Monday: We start considering graph-theoretic algorithms.  This -->
+<!--           is a vast subject, and we will only be able to cover a very small -->
+<!--           amount of it.  But what we will be doing is absolutely fundamental and -->
+<!--           basic to everything else in this field.  Today we'll cover -->
+<!--           breadth-first search.  You should read Sections 22.1 and 22.2 in the -->
+<!--           book.  The handout covering this is Lecture 12.</li> -->
+
+<!--         <li><p>Wednesday: We start depth-first search.  This corresponds to -->
+<!--             Sections 22.3 through 22.5 in the text.  However, the main source we -->
+<!--             will be using is the first chapter of my expository article "Notes on -->
+<!--             Graph Algorithms Used in Optimizing Compilers", which you can find on -->
+<!--             my web site.</p> -->
+
+<!-- <\!--           <p><b>Please</b> be sure to print out a copy for yourself in -\-> -->
+<!-- <\!--             preparation for this week's classes, as I won't be handing it out, -\-> -->
+<!-- <\!--             but I will be going through it pretty closely.  (If you don't have -\-> -->
+<!-- <\!--             it with you in class, you will be really lost.)</p> -\-> -->
+
+<!--           <p>This covers the same material as the text, so you can just skim the -->
+<!--             text if you want.</p></li> -->
+
+<!--       </ul> -->
+
+<!--       <li><a href="http://www.cs.umb.edu/~offner/cs624/assignments/a07.pdf"> -->
+<!--       Assignment</a> due Monday, April 1: breadth-first and depth-first -->
+<!--       walks and some simple applications.</li> -->
+
+<!--     </ul> -->
+<!--   </li> -->
+
+
+
+<!--   <l>Week 9: -\-> -->
+<!--     <ul> -->
+
+<!--       <li>Reading: -->
+<!--         <ul> -->
+
+<!--           <li>Monday and Wednesday:  We finish the lectures on depth-first search. -->
+
+<!--           <\!-- <li><p>Wednesday: We start talking about flows in networks, the -\-> -->
+<!--           <\!-- max-flow min-cut theorem and some applications.  I will pass out -\-> -->
+<!--           <\!-- the Lecture 14 handout, which covers this material.</p> -\-> -->
+          
+<!--           <\!-- <p>Note: this handout covers pretty much what is in Chapter 26 of our -\-> -->
+<!--           <\!-- text.  However, I strongly recommend that you do <em>not</em> read -\-> -->
+<!--           <\!-- Chapter 26.  The reason is that I am using a different convention for -\-> -->
+<!--           <\!-- representing such networks than the book does, and if you try to read -\-> -->
+<!--           <\!-- both the book and my notes, you will really get confused.</p></li> -\-> -->
+
+<!--         </ul> -->
+<!--       </li> -->
+      
+<!--       <li><a href="http://www.cs.umb.edu/~offner/cs624/assignments/a08.pdf"> -->
+<!--           Assignment</a> due Monday, April 8: more on depth-first search. -->
+<!--           <\!-- Assignment</a> due Monday, April 2: more on depth-first search, and -\-> -->
+<!--           <\!-- flows in networks. -\-> -->
+
+<!--       </li> -->
+
+<!--     </ul> -->
+<!--   </li> -->
+
+
+<!--   <li>Week 10: -->
+<!--     <ul> -->
+<!--       <li>Reading: -->
+
+<!--         <ul> -->
+        
+<!--           <li><p>Monday and Wednesday: We start talking about flows in networks, -->
+<!--           the max-flow min-cut theorem and some applications.  The Lecture 14 -->
+<!--           handout covers this material.</p> -->
+          
+<!--           <p>Note: this handout covers pretty much what is in Chapter 26 of our -->
+<!--           text.  However, I strongly recommend that you do <em>not</em> read -->
+<!--           Chapter 26.  The reason is that I am using a different convention for -->
+<!--           representing such networks than the book does, and if you try to read -->
+<!--           both the book and my notes, you will really get confused.</p></li> -->
+
+<!--          <\!-- <li>Monday: More on network flows.</li> -\-> -->
+
+<!--          <\!-- <li>Wednesday: Finish network flows and review for the second mid-term -\-> -->
+<!--          <\!--   exam, which will be on Monday, April 9.</li> -\-> -->
+          
+<!--          </ul> -->
+<!--        </li> -->
+        
+
+<!--        <li><a href="http://www.cs.umb.edu/~offner/cs624/assignments/a09.pdf"> -->
+<!--          Assignment</a> due Monday, April 15: flows in networks.</li> -->
+
+<!--     </ul> -->
+<!--   </li> -->
+
+
+
+<!-- <li>Week 11: -->
+<!--     <ul> -->
+
+<!--       <li>Reading: -->
+<!--         <ul> -->
+
+<!--           <li>Monday: No class (Patriot's Day)</li> -->
+
+<!--           <li>Wednesday: Second mid-term exam. -->
+
+
+<!--         </ul> -->
+<!--       </li> -->
+
+<!--     </ul> -->
+<!--   </li> -->
+
+
+<!--   <li>Week 12: -->
+<!--     <ul> -->
+
+<!--       <li>Reading: -->
+
+<!--         <ul> -->
+
+<!--           <li>Monday: We start the topic of NP-completeness.  This is Lecture -->
+<!--             16.  We will cover up through section 3.1 of the lecture notes.</li> -->
+
+<!--           <li>Wednesday: We continue the topic of NP-completeness</li> -->
+
+<!--         </ul> -->
+<!--       </li> -->
+
+<!--       <li>Assignment due Monday, April 29:  All the problems in the sections -->
+<!--         of the notes we have covered. -->
+<!--       </li> -->
+
+<!--     </ul> -->
+<!--   </li> -->
+
+
+
+
+
+
+<!--   <li>Week 13: -->
+<!--     <ul> -->
+
+<!--       <li>Reading:  We continue the topic of NP-completeness. -->
+<!--       </li> -->
+
+
+<!--       <li><a href="http://www.cs.umb.edu/~offner/cs624/assignments/np2.pdf"> -->
+<!--           Assignment</a> due Monday, May 6: Proving some problems are NP-complete -->
+<!--         using reductions.  I am looking here for clear writing that is easy to -->
+<!--         understand for someone who does not know this to begin with. -->
+<!--       </l> -->
+
+<!--     </ul> -->
+<!--   </li> -->
+
+
+<!--   <li>Week 14: -->
+<!--     <ul> -->
+
+<!--       <li> We finish our treatment of NP-completeness, up through the end of the -->
+<!--       notes.  In particular, we prove the remarkable Cook-Levin Theorem.  </li> -->
+
+<!--       <li><a href="http://www.cs.umb.edu/~offner/cs624/assignments/np3.pdf"> -->
+<!--           Assignment</a> due Monday, May 13: Two more problem on NP-completeness. -->
+<!--           Again, the issue here is to explain things in a very clear and -->
+<!--           understandable fashion.  </li> -->
+
+<!--     </ul> -->
+<!--   </li> -->
+
+<!--   <li>Week 15: -->
+<!--     <ul> -->
+
+<!--       <li>Monday: Course evaluation and review for the final exam.  There is far -->
+<!--         too much in this course to go over each topic, so I am depending on you -->
+<!--         to ask specific questions So please come in with them!  If we have time, -->
+<!--         we might also go over one of the topics in flow network problems that we -->
+<!--         were not able to get to.</li> -->
+
+<!--       <li><p>Wednesday: A brief introduction to approximation algorithms for -->
+<!--         NP-complete problems&mdash;this is Lecture 17.  Also a couple of bits of -->
+<!--         history, and more review for the final exam.</p> -->
+
+<!--       <p>The final will cover the entire course.  As usual, it will be a -->
+<!--         closed-book exam&mdash;no books, no notes, no cell phones or electronic -->
+<!--         anything.  And also as usual, there will be many more questions than you -->
+<!--         can possibly do.  So you don't have to worry if there are some you get -->
+<!--         stuck on.  Just do other ones.  Study hard; and I hope you will enjoy -->
+<!--         it!</p> </li> -->
+
+<!--     </ul> -->
+<!--   </li> -->
+
+
+<!-- </ul> -->
+<!-- </p> -->
+
+
+<hr>
+
+<b>Prerequisite:</b>
+<ul>
+  <li>CS 220 or CS 320L or MATH 320L (these are all the same course):  Applied
+  Discrete Mathematics
+</ul>
+<p/>
+
+<p>This prerequisite is important.  You really need to have taken this course,
+and done well in it, or can convince me you really do know this material, to get
+the benefit of CS 624.</p>
+
+<p> Further, while this is the official prerequisite, there is some other
+material that you really need to know in order to understand what we are doing
+in this course.  I do know that you have studied this before, but I just want to
+make it explicit here.  I will not review this material in class&mdash;you are
+responsible for understanding it.  The homework and also the exams will include
+problems using this material:
+
+<ul>
+  <li>
+
+  <p><b>Some serious single-variable calculus:</b> derivatives, the chain
+  rule, integrals, the "Fundamental Theorem of the Calculus", maxima and
+  minima, increasing and decreasing functions.  You should be able to take the
+  derivative of expressions like this one:
+  <code>(5x<sup>2</sup> - 2x + 4)<sup>88</sup></code></p>
+  <p>And of course you should never get confused between the two
+  functions
+  <ul>
+    <li><code>f(x) = x<sup>a</sup></code> (for instance, <code>f(x) =
+    x<sup>3</sup></code>) and</li>
+    <li><code>g(x) = a<sup>x</sup></code> (for instance, <code>g(x) =
+    3<sup>x</sup></code>)</li>
+  </ul>
+  </p>
+  
+  <p>Which one grows faster?  And is the difference in growth significant?
+  </p>
+
+  </li>
+
+  <li><b>High school algebra.  Please refresh yourself on these topics.  It's
+  not really much, and I'm sure you have seen all this before.  Let me know if
+  you're not sure what I mean.:</b>
+  <ul>
+    <li>Do you know the formula for the sum of a geometric series?  Can you
+    derive it? (It's really very simple.  I'm sure you saw it in high
+    school. And it's very neat.)</li>
+    <li>Can you add algebraic fractions?  I'm talking about expressions like
+    this:
+    <code>(x + 1)/(x - 3) + (x - 4)/(x<sup>2</sup> + 11)</code></li>
+    <li>Can you manipulate and simplify expressions involving square roots?</li>
+    <li>Do you know the quadratic formula?
+  </ul>
+
+  <li><b>Some basic probability theory:</b>  I don't really expect much, but I
+  imagine you will have had an introduction to some simple probability theory.
+  Our text does cover what you need, and in fact covers much more than you need.</li>
+
+  <!-- <li><b>Some basic probability theory:</b> combinatorics applied to -->
+  <!-- probability; expectation; conditional probability; independence.  Appendices -->
+  <!-- C.1-C.4 of the text go over this material&mdash;more than we will really need, -->
+  <!-- but you should at least look it over and you should be familiar with a fair -->
+  <!-- amount of it.  You should be able to do at least some of the exercises there -->
+  <!-- yourself.  If you have questions about them, send me email, and I'll be glad -->
+  <!-- to help.  But I'm not going to cover this material in class&mdash;you are -->
+  <!-- responsible for it.</li> -->
+
+</ul>
+
+<p>I don't mean this to be intimidating.  Many people get very frightened by
+even elementary mathematics.  There is no need to be frightened.  And I'll
+always be available to help you out.</p>
+
+<p/>
+<b>Class meetings:
+</b>
+M/W 5:30-6:45 PM in room W-1-45 (that's the  Wheatley building, first floor)
+
+<p/>
+<b>Office hours:
+</b>
+Before class:  M/W 4:30-5:15 PM
+<p/>
+<hr>
+
+<b>Text:</b>
+<p/>
+<p>Introduction to Algorithms, Third Edition<br>
+by Cormen, Leiserson, Rivest, and Stein<br>
+MIT Press, 2009</p>
+
+<p>This is the most widely used text (by far) in this kind of course, all over
+this country, and maybe all over the world.  It's a great book; it's very well
+written; it covers a vast number of important topics; and you can keep it and
+refer to it throughout your career.</p>
+
+
+<p/>
+</ul>
+<p/>
+<hr>
+<b>Syllabus:
+</b>
+
+<p>I'm sure everyone in this class has taken one or more courses in which you
+have learned some of the really great algorithms.</p
+
+<p>This is not one of those courses.  This is not a course in "really great
+algorithms", or in writing programs, or even in writing pseudo-code.</p>
+
+<p>This is for all practical purposes a mathematics course.  It is a course on
+the <b>analysis</b> of algorithms.  We are going to prove theorems in this
+course.  In fact, that's just about all we are going to do.  And when I say
+<em>we</em>, I really mean <em>you</em>.  The homework will consist of theorems
+that you will have to prove.  The exams will consist of theorems that you will
+will have to prove.  That's what we're going to do.</p>
+
+<p>
+At a minimum, I plan to cover the following material this term:
+</p>
+<ol>
+
+  <li> Introductory material.  What do we mean by analysis of algorithms?  Why do
+  we care?  Some basic examples.</li>
+
+  <li> Mathematical background and some useful mathematical techniques.  Orders
+  of growth of functions.  Solving and estimating solutions of recursions.
+  Generating functions.</li>
+
+  <li> The analysis of Heapsort and Quicksort.  Best-case, worst-case, and
+  average-case behavior.</li>
+
+  <li> Lower bounds on sorting algorithms; bucket sort.</li>
+
+  <li> Order statistics.</li>
+
+  <li> The theory of binary search trees.</li>
+
+  <li> Dynamic programming.</li>
+
+  <li> Amortized analysis.</li>
+
+  <li> Graph algorithms; in particular:
+
+    <ul>
+
+      <li> A detailed mathematical analysis of depth-first search, together
+      with some of its remarkable applications.  I know you have all learned
+      about depth-first search.  Believe me, you haven't seen the incredible
+      uses that we will make of it here.</li>
+
+      <li> The max-flow min-cut theorem and its consequences.</li>
+
+    </ul>
+
+  <li> The theory of NP-completeness.</li>
+
+</ol>
+<p/>
+There are many other topics that I'd really like to cover as well.  This is just
+a fascinating field.  We'll see&hellip;
+
+<br>
+<hr>
+<b>Course Work:</b>
+
+<p> There will be one homework assignment each week.  I will not accept
+assignments handed in late.</p>
+
+<p> There will be two in-class "mid-term" exams, and one final exam.  </p>
+
+<p> All the exams will be "closed-book" exams.  No books, no notes, no
+smartphones or other electronic equipment, and so on.  Just bring something to
+write with.</p>
+
+<hr>
+
+<b> Grading:</b>
+
+<p> I will weight the work in the course roughly as follows when making up final
+grades:</p>
+
+<ul>
+
+  <li> All the homeworks, taken together:  20%</li>
+
+  <li> Both mid-term exams, taken together: 40%</li>
+
+  <li> Final exam: 40%</li>
+
+</ul>
+
+<p> I will not give out "review sheets" for the exams.  It
+should go without saying, however, that the very best way to prepare for the
+exams is to
+
+<ul>
+  <li> do the homework, and </li>
+
+  <li> read the handouts carefully.  If there is anything you don't understand
+  in them, you need to ask me about it.  And the earlier you ask, the
+  better.</li>
+
+</ul>
+</p>
+
+<hr>
+
+
+<b>Writing Proofs:</b>
+
+<p> This course does not involve any programming per se,
+although without a doubt your experiences in building serious programs will help
+you understand many of the issues we deal with.</p>
+
+<p>In fact, as I already stated above, the course could well be regarded as a
+mathematics course.  I will be proving things in class, and you will be expected
+to write formal proofs in your assignments and on exams.  If this is something
+you are not ready to come to grips with, you should wait until you are ready to
+take this class.  That doesn't mean, though, that I expect you to be experts in
+proving things.  Constructing proofs is a very sophisticated skill that we will
+work on all term.  You will gradually get better at it.  And I'll be very
+willing to help you every way I can.</p>
+
+<p>There is a style to writing proofs.  In fact, there are several styles.  But
+the main thing to keep in mind when writing a proof is this: Your goal should be
+to write a proof that is easy to read and that illuminates the reason why
+something is true.  That's really what a proof is.  And this is not easy to do.
+Good writing of any kind is difficult, and we will work hard at it all term.
+</p>
+
+<p>Probably the single most important proof technique in this area is
+mathematical induction.  I will assume that you have had some experience with
+this technique, and I'll give you some pointers, since we will be using it a
+lot.</p>
+
+<p>I also expect you to be familiar with standard mathematical notations such as
+summations (and of course, integrals).  Some of this is reviewed in the
+appendices of the text.  I will not review this in class.  I expect you to know
+it, and we will be using it a lot.</p>
+
+<p>One thing is very important to bear in mind: Like any other kind of writing,
+a proof <b>must</b> be understandable.  If I can't understand what you are
+writing, then it can't be correct.  And I'm not going to try to guess what you
+had in mind.</p>
+
+<p>(One thing I have noticed is that some students seem to believe there is only
+one way to do something, and only one way to explain it, and so of course I must
+understand what they mean.  But that's not true.  There are almost always many
+ways to do things, and many ways to explain them.  If I write on your paper "I
+don't understand this", I'm not being irritable&mdash;I really <b>don't</b>
+understand it.</p>
+
+<p>If you are uncertain how to express something, please just talk
+to me or send me email, and I'll try hard to help you.  But don't even bother
+writing something that can't be understood.</p>
+
+<p>Think of this like you would when writing a computer program.  If the compiler
+or interpreter can't understand it, it's wrong.  And you have to be really
+careful with your use of language and terms.  For instance, one thing beginning
+programmers often get mixed up about is the correct use of "or" and "and".  The
+meaning in computer languages is not the same as in English (or any other
+natural language, so far as I know).  The same is true in proofs.  We use
+language in very precise and fixed ways in proofs, and we do this so that what
+we write can be understood in its exact meaning by anyone at any time, anywhere
+in the world.</p>
+
+<p>
+Just for a simple example:  the sentence "All horses are not white." does
+<b>not</b> mean the same as "Not all horses are white."  At least, not when
+writing proofs.  In ordinary English, these two sentences are generally regarded
+as equivalent.  But for our purposes they are not.  You have to be careful about
+this.</p>
+
+<p>Here's another example:  The symbol "==>" means "implies".  It does <b>not</b>
+mean "then".  So you can write
+<pre>
+   if x = 3 then x + 5 = 8
+</pre>
+or you can write
+<pre>
+   x = 3 ==> x + 5 = 8
+</pre>
+But you <b>cannot</b> write
+<pre>
+   if x = 3 ==> x + 5 = 8   <font color=red>!!! WRONG !!!</font>
+</pre>
+
+Here's another thing to watch out for:  the symbol "=" means "equals".  It
+doesn't mean anything else.  (Well, there is one small exception, involving
+"big-O" notation, which we will cover in the second class.)  So you could
+write something like this:
+
+<pre>
+    2x - 1 = 5
+  <font color=red>so</font>
+         x = 3
+</pre>
+But you <b>cannot</b> write
+<pre>
+    2x - 1 = 5
+   <font color = red>=</font>     x = 3       <font color = red>!!! WRONG !!!</font>
+</pre>
+
+Please try to be careful about things like this.  And please don't be offended
+if I correct mistakes like this in what you write.</p>
+
+<hr>
+<p/>
+
+<b>Collaborating with Others</b>
+
+<p> I encourage you to talk with other students&mdash;in fact, with
+anyone&mdash;about the topics we are covering.  And I also encourage you to send
+me email with questions; I'll be happy to get back to you as quickly as I can.
+Asking me questions, and sending me email does not lower your grade.  And it
+does not make me think badly of you.  In fact, it shows me that your are taking
+this material seriously.  This material we will be studying is very
+sophisticated.  <em>Of course</em> you will have questions.  That's good.</p>
+
+<p>However, the writeups you hand in must be entirely your own.  You may not
+copy proofs, or algorithms, or parts of proofs or algorithms, or anything else,
+from anyone else's paper, or from the web, or from books, or from anywhere else,
+<b>even if you give credit to that person or source.</b> And you must be able to
+explain to me what you have written.</p>
+
+<p>I also expect you to read the file ~offner/cs624/honesty.pdf.  This file
+spells out in more detail exactly we should look at our work in this course.</p>
+
+<p>Please do take this seriously.  I'm very happy to try to help you out in
+person or by email.  I really do want every one of you to succeed, and I'll try
+hard to make that happen.  But I have no tolerance at all for plagiarism.  If I
+find evidence of it, you will receive an F for the course.  And I don't give
+"second chances".</p>
+
+<hr>
+<p/>
+<b> On-line resources:</b>
+<p/>
+Two web sites that you might profitably look at are:
+<p/>
+<ul>
+
+  <li> The course as it was taught at MIT in 2011: <a
+  href="http://aka-ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/lecture-videos/">http://aka-ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/lecture-videos/</a>>
+
+  <p/>
+
+  <li> The course as it has been taught at Stony Brook by Steven Skiena: <a
+   href="http://www.algorist.com"> http://www.algorist.com</a>.  Skiena is the
+   author of another text&mdash;<em>The Algorithm Design Manual</em>&mdash;that
+   is just full of wonderful and insightful case studies and "war stories" about
+   the design and practical application of algorithms.  It is well worth
+   reading, and in the past has been used as an auxiliary text in this class.  I
+   didn't want to make it a required text, but you won't be wasting either your
+   time or your money by getting it.
+
+</ul>
+<p/>
+On both these web sites you can find lecture notes and videos of course
+lectures.
+
+
+
+<hr>
+<p/>
+<b>Some University Policies:</b>
+<p/>
+<ul>
+  <li><b>Student Conduct and Plagiarism</b>
+
+  <p>Students are required to adhere to the polices expressed at the University
+  web site <a
+  href="http://www.umb.edu/life_on_campus/policies/academics/">Academic Policies
+  and Rights.</a> </p></li>
+
+  <li><b>Accommodations for Students with Disabilities</b>
+
+  <p/> Section 504 of the Americans with Disabilities Act of 1990 offers
+  guidelines for curriculum modifications and adaptations for students with
+  documented disabilities.  If applicable, students may obtain adaptation
+  recommendations from the Ross Center for Disability Services, (Campus Center,
+  UL Room 211; 617-287-7430).  The student must present these recommendations
+  and discuss them with each professor within a reasonable period, preferably by
+  the end of Drop/Add period.  <p/>
+
+</ul>
+<hr>
+
+
+<p/>
+</body>
+</html>

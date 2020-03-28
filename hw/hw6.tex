@@ -1,0 +1,160 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+b\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\newcommand{\tsc}[1]{\ensuremath{\textsc{#1}}}
+
+\DeclareMathOperator{\parity}{parity}
+\DeclareMathOperator{\rank}{rank}
+
+
+\date{23 March 2020}
+\title{CS 624 - HW 6}
+\author{Max Weiss}
+\begin{document}
+\maketitle
+
+\paragraph{1.} Let's say that a self-organizing list $L$ is \emph{lazy} if never makes any transpositions.  And, suppose that $L$ is lazy.  It follows that the expected cost of a sequence $S$ of accesses is simply $|S|$ times the expected cost of a single access, where the probability of access of any given value of $L$ is simply the frequency of its occurrence in $S$. Then the expected cost of a single access to $L$ of a value chosen uniformly from the sequence $S$ is given by
+\begin{equation}
+\label{1a}
+E[C^L(S)] = \sum_{x\in L}p(x)\rank_L(x)
+\end{equation}
+where $p(x)$ is the frequency of occurrence of $x$ in $S$.  I will argue that this expectation is minimized whenever $L$ is sorted in decreasing order of frequency of occurrence of its values.
+
+Certainly, the set of all possible expected costs must have a minimum, since there are only finitely many reorderings of $L$, and every finite set of real numbers has a least element.
+
+Now suppose that $L$ does not arrange the values of $L$ in decreasing order of their probability $p$ of access.  In that case, there are some values $u,v$ such that $\rank_{L}{u}<\rank_{L}{v}$ while $p(u)<p(v)$.  Let $L'$ be the result of transposing $u$ and $v$ in $L$. By (\ref{1a}), there is some $r$ such that
+\begin{align*}
+  E[C^{L}(S)] &= r + p(u)\rank_{L}(u) + p(v)\rank_{L}(v)\\
+  E[C^{L'}(S)] &= r + p(v)\rank_{L'}(u) + p(u)\rank_{L'}(v)
+\end{align*}
+It therefore suffices to prove the more general statement that if $a<b$ and $c<d$ with $a,b> 0$, then $ad+bc<ac+bd$.  Let $x=d-c$.  Then $ax<bx$, so that
+\begin{align*}
+  ad + bc &= ax + ac + bc\\
+  &<
+  bx + ac + bc\\
+  &=
+  ac + bd.
+\end{align*}
+
+It follows that the minimum expectation must be conferred by some list which arranges its values in decreasing order of their probability.  Of course, there may be more than one such list.  So, we need finally to verify that any two such lists $L$ and $L'$ confer the same expectation.  If we partition the set of values of $L$ according to their probabilities, then each cell corresponds to a contiguous subsequence of $L$, and also to some such subsequence of $L'$.  The lists $L$ and $L'$ differ only as to the internal order of these corresponding subsequences.  By appeal to (\ref{1a}), we can conclude that they do not differ as to expected cost.
+
+
+\paragraph{2.} Let $S$ be the sequence given by $S_i = \parity(\lfloor\lg(i)\rfloor)$ for all $i$, with $i\geq 1$.  And let $\hat S$ be the sequence of proportions of $0$s in consecutively larger initial segments of $S$.  I will argue that $\hat S$ does not converge.
+
+First suppose that $n$ is even.  Then $S[..2^{n}-1]$ is a concatenation of sequences of the form
+\[\underbrace{0\cdots 0}_{k}\underbrace{1\cdots 1}_{2k}
+\]
+so it contains twice as many $1$s as $0$s.  It follows that $\hat S$ contains infinitely many occurrences of the ratio $\frac{1}{3}$.
+
+%% Let's write $q_k$ for the constant sequence which consists of $2^k$ occurrences of the parity, $0$ or $1$, of $k-1$.  
+%% On the one hand, $S[..2^{2n}-1]$ is a concatenation of sequences of the form
+
+
+%% Then $S[..2^{2n}-1]$ is a concatenation of subsequences of the form $q_{k}q_{k+1}$ for $k$ odd, so it contains twice as many $1$s as $0$s.  Hence, $\hat S$ contains infinitely many occurrences of the ratio $\frac{1}{3}$.
+
+However if $n$ is odd, then $S[2..2^{n}-1]$ is a concatenation of sequences of the form 
+\[\underbrace{1\cdots 1}_{k}\underbrace{0\cdots 0}_{2k}.
+\]
+Thus, $S[2..2^{n}-1]$ contains twice as many $0$s as $1$s for all odd $n$.  Therefore, $\hat S$ asymptotically approaches $\frac{2}{3}$.
+
+Since a convergent sequence cannot contain infinitely many occurrences of one value while also asymptotically approaching another, it follows that $\hat S$ does not converge.
+
+
+%% Note that $S$ can be seen as a concatenation of subsequences $q_k = S[2^{k-1}..2^{k}-1]$, where each $q_k$ is a uniform sequence of $2^k$ entries of $\parity(k-1)$.  If $n$ is even, then $S[..2^{n}-1]$ is a concatenation of subsequences of the form 
+%% $q_{k}q_{k+1}$ for $k$ odd, and therefore contains twice as many $1$s as $0$s.  On the other hand consider $n$ odd. Then $S[2..2^{n}-1]$ is a concatenation of subsequences $q_{k}q_{k+1}$ for $k$ even; therefore this contains twice as many $0$s as $1$s, so that as $k$ approaches infinity, there comes to be arbitrarily close to twice as many $1$s as $0$s in $S[..2^{n}-1]$.  Therefore, the frequency of occurrences of $0$ in $S$ becomes arbitrarily close to $\frac{1}{3}$, but it will likewise will become arbitrarily close to $\frac{2}{3}$.  So, it certainly does not converge.
+
+\paragraph{3a.} I used the Python script
+\begin{verbatim}
+  def mtf(L, S):
+    print(f"\nstep\tL\t\t\tsought\tcost")
+    cost = 0
+    for i, x in enumerate(S):
+        # seek x in L
+        loc = L.index(x)    
+        cost += loc + 1
+        # move to front
+        while loc != 0:
+            L[loc], L[loc-1] = L[loc-1], L[loc]
+            loc -= 1
+            cost += 1
+        print(f"{i+1}\t{L}\t{x}\t{cost}")
+    return L, cost
+\end{verbatim}
+which generated the following output:
+\begin{verbatim}
+step    L                       sought  cost
+1       ['B', 'A', 'C', 'D']    B       3
+2       ['C', 'B', 'A', 'D']    C       8
+3       ['A', 'C', 'B', 'D']    A       13
+4       ['C', 'A', 'B', 'D']    C       16
+5       ['C', 'A', 'B', 'D']    C       17
+6       ['A', 'C', 'B', 'D']    A       20
+7       ['D', 'A', 'C', 'B']    D       27
+8       ['D', 'A', 'C', 'B']    D       28
+9       ['A', 'D', 'C', 'B']    A       31
+10      ['B', 'A', 'D', 'C']    B       38
+11      ['A', 'B', 'D', 'C']    A       41
+12      ['C', 'A', 'B', 'D']    C       48
+13      ['B', 'C', 'A', 'D']    B       53
+14      ['C', 'B', 'A', 'D']    C       56
+\end{verbatim}
+
+\paragraph{3b.}  The proof of the Sleator-Tarjan theorem actually shows that if $A$ is the $\textsc{Move-To-Front}$ algorithm, then $C_A(S)\leq \alpha \cdot(S)+k$ for $\alpha=4$ and $k=0$.  So the optimal offline algorithm could achieve at best a cost of $56/4 = 14$.
+
+\paragraph{3c.} Even an offline algorithm could not achieve a cost of just $14$ for the above list of fourteen queries.  
+To see this, note that each query cost includes an access cost. The minimum access cost, namely $1$, arises just for access of the first entry of the list.  So, a sequence of fourteen queries could achieve a cost of $1$ only by accessing just the list's first entry each time, while making no transpositions.  So, that sequence of queries would have to return a constant sequence of return values. It follows that the above query could not be supported correctly at a total cost of only $14$.
+
+\paragraph{4a.} Here is one way to implement a queue using two stacks. Call one stack In, and the other Out.  To enqueue an object, simply push it onto In.  To dequeue an object, first try to return the result of popping from Out.  If that fails, then successively pop each element from In and push it onto Out.   Try again to return the result of returning a pop from Out, raising an empty queue exception if this fails.
+
+The enqueue operation is clearly $O(1)$, since it uses a single push.  The cost of dequeuing depends on the state of the implementing structure.  If the Out stack is not empty, then the cost is simply the constant cost of a single pop.  So suppose that the Out stack is empty.  If furthermore the In stack is empty, then the cost is the constant cost of raising an exception.  So suppose finally that the In stack contains some $n>0$ elements.  Then the implementation requires $n$ pops interleaved with $n$ pushes, followed by another pop.  So, the cost in the worst case is proportional to $n$.  Of course, in this case, $n$ is simply the stack size.  So the dequeue operation is in the worst case linear in the stack size.
+
+\paragraph{4b.}  Consider a sequence of $n$ enqueue and dequeue operations, as implemented above.  And suppose, for simplicity, that no element is enqueued more than once.  Certainly, there can be no more than $n$ enqueued elements.  Furthermore, each enqueued element can be pushed at most twice, and popped at most twice.    So, there are at most $4n$ stack operations.  It follows that the amortized cost of both the enqueue and dequeue operations is constant.
+\end{document} 
+
+
+
+
+

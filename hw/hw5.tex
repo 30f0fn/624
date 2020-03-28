@@ -1,0 +1,346 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+b\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\newcommand{\tsc}[1]{\ensuremath{\textsc{#1}}}
+
+\date{2 March 2020}
+\title{CS 624 - HW 5}
+\author{Max Weiss}
+\begin{document}
+\maketitle
+
+%% \begin{verbatim}
+%% Cost(node)
+%%   if node is end then
+%%     return 0
+%%   if node has no children then
+%%     return infinity
+%%   foreach child of node do
+%%      compute Weight(node, child) + Cost(child)
+%%   return the minimum of those computed values
+%% \end{verbatim}
+
+
+\paragraph{1.}
+Let me write $A(x)$ for the value returned by the algorithm as applied to node $x$.  Let's define the \emph{cost} $C(x)$ of node $x$ by
+\begin{equation}
+\label{defCost}
+C(x) =\min_{p\in \pi(x)}W(p)
+\end{equation}
+where $W(p)$ is the sum of the weights of the edges in path $p$,
+and $\pi(x)$ is the set of paths from $x$ to the end node $e$.  Let's stipulate that $C(x)$ is infinite if $\pi(x)$ is empty.  Now the claim to be proven is that $C(x)=A(x)$ for all nodes $x$.
+
+Let's say that the \emph{level} of $x$ is the maximum length of a path from $x$.  Also, say that the $e$-\emph{level} of node $x$ is the number of edges in the longest path from $x$ to the end node $e$ (if no such path exists, say that the $e$-level is infinite).  
+
+The proof splits into cases.  Suppose that the $e$-level of $x$ is infinite.  Then there is no path from $x$ to $e$, so that $\pi(x)$ is empty, and $C(x)$ must be infinite.  I will argue by induction on the level of $x$ that $A(x)$ must be infinite as well.  If the level is $0$, then $x$ has no children, so $A(x)$ is infinite.  So suppose it to hold for all nodes of level at most $n$, and suppose $x$ has level $n+1$.  All children of $x$ have level at most $n$, and of course there cannot be a path from a child to $e$.  By induction hypothesis, $A(y)$ is infinite for all children $y$ of $x$.  Inspecting the code reveals that $A(x)$ is then the minimum of a set of infinite values, which is infinite.
+
+Let's now suppose that the $e$-level of $x$ is finite.  I will handle this by induction too.  If $x$ has $e$-level $0$, then $x=e$, so that $A(x)=0$. The empty path is a path from $e$ to $e$ and it has cost $0$, and therefore $C(x)\leq 0$.  Hence, $C(x)\leq A(x)$.  Conversely, all edges have nonnegative weights, and so $C(x)\geq 0$ and so $C(x)\geq A(x)$ as well.
+
+For the inductive step, suppose that $A(y)=C(y)$ for all nodes $y$ of $e$-level at most $n$, and let $x$ have $e$-level $n+1$.  Let me write $w(x,y)$ for the weight of the edge from $x$ to $y$ if any exists; and let me write $E(x)$ for the set of all nodes $y$ such that there is an edge from $x$ to $y$.  
+%%
+I now contend that
+\begin{align}
+A(x)
+&=\label{1a}
+\min\{w(x,y)+A(y):y\in E(x)\}\\
+&=\label{1b}
+\min\{w(x,y)+C(y):y\in E(x)\}\\
+&=\label{1c}
+\min\{{w(x,y)+\!\min_{p\in \pi(y)}\!\! W(p)} \,:\, y \in E(x)\}\\
+&=\label{1d}
+\min\{w(x,y)+W(p): p \in \pi(y)\text{ for some }y\in E(x) \}\\
+&=\label{1e}
+\min\{W(x\frown p): p \in \pi(y)\text{ for some }y\in E(x) \}\\
+&=\label{1f}
+\min\{W(p): p\in \pi(x)\}\\
+&=\label{1g}
+C(x)
+\end{align}
+Step (\ref{1a}) is clear by inspection of the code.  Noting that if $y\in E(x)$, then $y$ has $e$-level at most $n$, it follows that $A(y)=C(y)$ by induction hypothesis; and this justifies (\ref{1b}).  Step (\ref{1c}) follows from the definition (\ref{defCost}) of $C$.
+Step (\ref{1d}) is the crucial insight of the algorithm.  In one direction, the set minimized in (\ref{1d}) is a subset of the set minimized in (\ref{1c});  the other direction follows from 
+\begin{equation*}
+w(x,y) + \min_{q\in \pi(y)}W(q) \leq w(x,y) + W(p)
+\end{equation*}
+for all $p\in \pi(y)$.  
+Step (\ref{1e}) is the definition of $W$; 
+step (\ref{1f}) follows from the fact that the $e$-level $n+1$ of $x$ is finite and positive; and step (\ref{1g}) is the definition of $C$.
+
+\paragraph{2.} The problem here is to analyze the number of maximal paths in the $K$th ``diamond'' graph $G=G_K$, which has $2K+1$ rows.
+
+Consider the larger diamond subgraph $G_{2K}$, and in particular, let $G'$ be its maximal triangular subgraph, which results by dropping all rows of index $\geq K$.  It will be easier to work with $G'$ than $G$ (though the path counts for common nodes are clearly the same).
+
+Let's now write $p(n,k)$ for the number of paths to $k$th node of the $n$th row of $G'$.  We find that 
+\begin{equation}
+p(n,k)=\begin{cases}
+\text{$p(n-1, k-1)+p(n-1, k)$ for $0<k<n$, and}\\
+1\text{, otherwise}
+\end{cases}
+\end{equation}
+for all $n$ with $0<n\leq 2K$.
+
+I'll now argue that $p(n,k)=\binom{n}{k}$.  This is clear for $k=n$ or $k=0$.
+Otherwise, I'll argue by induction on $n$ that it holds for all $k$ such that $0<k<n$.
+It is clear for $n=1$.  So suppose that $p(n,k)=\binom{n}{k}$ holds whenever $0<k<n$.
+Then
+\begin{align*}
+p(n,k+1)
+&=
+p(n,k) + p(n, k-1)\\
+&=
+\binom{n}{k} + \binom{n}{k-1}\\
+&=
+\frac{n!}{(n-k)!k!}+\frac{n!}{(n-k+1)!(k-1)!}\\
+%% &=
+%% \frac{n!(n-k+1) + kn!}{(n-k+1)!k!}\\
+&= 
+\frac{(n+1)!}{(n+1-k)!k!}\\
+&=
+\binom{n+1}{k}
+\end{align*}
+provided $k<n$.  In the remaining case of $k=n$,
+\begin{align*}
+p(n+1, k) 
+&= 
+p(n,n)+p(n,n-1)\\
+&=
+1 + \binom{n}{n-1}\\
+&=
+n+1\\
+&=
+\binom{n+1}{k}
+\end{align*} where to obtain the second summand in the second line we again use the induction hypothesis.  Thus $p(n+1, k)=\binom{n+1}{k}$ whenever $0<k<n+1$ which completes the induction step.
+
+%% Notice, though, that 
+%% \begin{equation}
+%% p(n-1, k-1)+p(n-1, k) = \binom{n}{k}
+%% \end{equation}
+%% for $0<k<n$, while of course $\binom{n}{0}= \binom{n}{n}=1$. Therefore, $p(n,k)=\binom{n}{k}$.  
+
+Applying this result to $G_4$: the bottom node of $G_4$ is the $4$th node of the $8$th row of $G_8$.  So, the number of paths to the bottom node of $G$ is $p(8,4)=70$.
+
+Let's now return to general case of $G_K$.  Its bottom node is the $K$th node of the $2K$th row.  Let's write $q(K)=p(2K,K)$.  Then the number of paths to the bottom node will be given by
+\begin{align}
+\label{2a}
+q(K)&=\binom{2K}{K}
+=\frac{(2K)!}{K!(2K-K)!}
+=\frac{(2K)!}{K!K!}
+\end{align}
+
+To bound the growth rate of $q$, let's take the version of Stirling's formula
+\begin{equation*}
+n!=\sqrt{2\pi n}\left(\frac{n}{e}\right)^n\left(1+\Theta\left(\frac{1}{n}\right)\right)
+\end{equation*}
+ plug it in for the last expression in (\ref{2a}), and simplify:
+\begin{align}
+\nonumber
+q(K) & =
+\frac
+{\sqrt{2\pi 2K}(\frac{2K}{e})^{2K}\left(1+\Theta\left(\frac{1}{2K}\right)\right)}
+{2\pi K(\frac{K}{e})^{2K}\left(1+\Theta\left(\frac{1}{K}\right)\right)^2}\\
+%% &= \frac
+%% {(2K)^{2K}(1+\theta(\frac{1}{2K}))}
+%% {K^{2K}\sqrt{\pi K}\left(1+\Theta\left(\frac{1}{K}\right)\right)^2}\\
+&=
+\label{2c}
+\frac
+{2^{2K}\left(1+\Theta\left(\frac{1}{2K}\right)\right)}
+{\sqrt{\pi K}\left(1+\Theta\left(\frac{1}{K}\right)\right)^2}
+\end{align}
+
+The formula (\ref{2c}) contains a ratio of error terms 
+\begin{align*}
+h(K)
+=
+\frac
+{1+\Theta(\frac{1}{2K})}
+{(1+\Theta(\frac{1}{K}))^2}.
+%% \\
+%% &=
+%% \frac{1}{1+\Theta(\frac{1}{K})}\frac{1+\Theta(\frac{1}{K})}{1+\Theta(\frac{1}{K})}.
+\end{align*}
+By definition of $\Theta$, it follows that there are constants $c,d,e$ such that $h(K)$ is asymptotically bounded by
+\begin{equation*}
+\frac{1+\frac{c}{K}}{(1+\frac{d}{K})(1+\frac{e}{K})}
+=
+\frac{K(K+C)}{(K+d)(K+e)}
+\end{equation*}
+The latter is asymptotically bounded by $1$, because it is the product of two ratios which are each so bounded.
+
+It follows that 
+\begin{align*}
+q(K) < \pi^{-1}\frac{2^{2K}}{\sqrt K}
+\end{align*}
+for all sufficiently large $K$, so $q\in O\left(\frac{2^{2K}}{\sqrt K}\right)$, as desired.
+
+\paragraph{Note for questions 3-5.}  These questions involve a pair of algorithms with a common pattern: each brings a ``worker'' function which expresses the meat of the algorithm, but then wraps this into a mutual recursion with a ``guard''.  The guard is supposed to prevent the worker from being called more than once, by storing previously computed results in a memo.  
+\begin{verbatim}
+def memoized(f, args):
+    memo = HashTable()
+    return guard(args)
+
+    def guard(args):
+        if n not in memo:
+            memo[n] = f(guard, args)
+        return memo[args]
+\end{verbatim}
+Several conditions must be in place for this wrapper to implement memoization.  Of course the \tsc{args} must be hashable. More importantly, the supplied worker must not recurse on itself directly but only on its guarded form. Finally, the worker must call the guarded form only on arguments which are in some sense of lower ``rank''.  More precisely, say that a relation $<$ is \emph{wellfounded} if there is no infinite chain $x_1>x_2>x_3\cdots$.  Then, the applicability condition for the wrapper is that
+\begin{itemize}
+\item there exists a wellfounded relation $<$ such that $\tsc{args1} < \tsc{args}$ for every invocation of the guarded worker $g(\tsc{args1})$ within an execution of
+$f(g, \tsc{args})$.
+\end{itemize}
+
+Under this condition on $f$, I will now argue for the key memoization property: within any execution of $\tsc{memoized}(f, \tsc{args})$, the function $f$ is called on a given set of arguments at most once.
+
+Note that each execution of $f(\tsc{guard}, \tsc{args})$ must occur within an execution of $\tsc{guard}(\tsc{args})$.  Let $t_1,t_2$ be the invocation and return of the smallest execution of $\tsc{guard}(\tsc{args})$ which includes the first execution of $f(\tsc{guard}, \tsc{args})$.  Within $t_1$ and $t_2$, there is an execution $E$ of $f(\tsc{guard}, \tsc{args})$ which includes all other calls to $f$ within $t_1,t_2$.  By the applicability condition, these must in turn be included in calls to $\tsc{guard}(\tsc{args}')$ such that $\tsc{args}'<\tsc{args}$, and must therefore act on such arguments of lower rank than \tsc{args}.  So no other call to $f(\tsc{guard}, \tsc{args})$ gets issued between $t_1$ and $t_2$.  But always after $t_2$, the node $n$ is stored within \tsc{memo}, and so after $t_2$, no calls to $\tsc{guard}(\tsc{args})$ can generate a call to $f(\tsc{guard}, \tsc{args})$ either.  
+
+
+
+\paragraph{3.}  Let me rephrase the memoized version of the cost algorithm using the \textsc{memoized} wrapper above.
+\begin{verbatim}
+def cost(node):
+    def worker(g, n):
+        if n is end:
+             return 0   
+        min_dist = infinity
+        foreach child of n:
+            new_dist = weight(n, child) + g(child)
+            min_dist = min(min_dist, new_dist)
+        return min_dist
+    return memoized(worker, node)
+
+\end{verbatim}
+I will now work to evaluate the running time of this algorithm.  
+Let's begin by verifying the condition of applicability of the memoization.  Write $x<y$ to mean that node $x$ is a strict descendant of $y$ (i.e., $x$ is a descendant of $y$ and $x\neq y$).  From homework 4 (as I did it anyway) we know that $<$ is a partial order, so that it has a minimal element on every finite set, and it must (using strictness) therefore be wellfounded on finite trees.  Since $g$ is invoked only on children (which are strict descendants) of the input argument, this confirms the applicability condition.  So we can conclude that within any execution of $\tsc{cost}$, the \tsc{worker} subroutine is called at most once per node.
+
+I'll now count the number of executions of $\tsc{guard}$.  As for the root node, every call to $\tsc{guard}$ other than the initial one operates on a node of lower level, so $\tsc{guard}$ is called on the root node only once.  So suppose $n$ is not the root. Then each call to $\tsc{guard}(n)$ is triggered by a pass through the the main loop, in some $\tsc{worker}(n')$ call, which corresponds to an edge from $n'$ to $n$.  Since $\tsc{worker}(n')$ can be executed only once, it follows that there can be just as many invocations of $\tsc{guard}(n)$ as there are edges into $n$.  
+
+Besides their subcalls to each other, each execution of \tsc{worker} or of \tsc{guard} makes only a constant number $c_h$ or $c_m$ of other operations (array or hashtable lookup, hashtable insertion, assignment, addition, etc).  So where $c=\max(c_h,c_m)$, the runtime of the algorithm sketched above is bounded by $c(|E| + |V|)$.  It follows that the runtime is $O(|E|+|V|)$.
+
+
+
+\paragraph{4.} Here is some pseudo-code for a memoized calculation of the longest common subsequence.
+\begin{verbatim}
+def lcs(X, Y):
+    def worker(g, i, j):
+        if i == 0 or j == 0:        
+            return 0
+        if X[i] == Y[j]:
+            return g(i-1, j-1) + 1
+        else:
+            return max(g(i-1, j), g(i, j-1))
+    return memoized(worker, i, j)
+                   
+\end{verbatim}
+
+\paragraph{5.} As before, let's begin by extracting the key property of the memoization wrapper.  Write $(i',j')<(i,j)$ iff $i'+j'<i+j$.  For nonnegative integers, $<$ is wellfounded.  Furthermore, within \tsc{worker}, it is only on positive integers that the subroutine $g$ is invoked.  Therefore, the function \tsc{worker} can be invoked on a given pair $i,j$ only once.  
+
+It follows that the number of calls to \tsc{worker} can be at most $mn$, where $m$ is the length of $X$ and $n$ is the length of $Y$.
+
+
+Each (noninitial) call to $\tsc{guard}(i,j)$ occurs within a call either of $\tsc{worker}(i+1, j)$ or of $\tsc{worker}(i, j+1)$ (or both).   And in either execution, it can occur at most once.  
+Furthermore, we saw above that each of those \textsc{worker} calls can occur at most once. So, $\tsc{guard}(i,j)$ can be executed at most twice for each pair $i,j$.  
+
+The calls to \textsc{guard} and to $\textsc{worker}$ are, then, each proportional in number to $mn$.  Since besides their recursive mutual subcalls they employ only constant time operations, it follows that the algorithm is $O(mn)$.
+
+
+
+
+
+
+
+
+
+%% Please note two things:
+%% 1. The recursive algorithm outlined above is a recursive mathematical formula. I am asking for
+%% pseudo-code.
+%% 2. What you need to write to do this problem is not the pseudo-code presented in the book. That’s
+%% not recursive.
+
+
+%% 1.3 Exercise 1. Show that the number of paths from start to end in the DAG in Figure 2 is 70.
+%% 2. Let us number the rows in the DAG starting from 0. So the number of the last row is 8. We
+%% could of course make larger figures in an exactly similar way, containing more rows. In any
+%% case the number of rows would be an even number. (This should be pretty clear, I hope.) Let
+%% us denote the number of rows by 2k.
+%% Find an expression for the number of paths from start to end in such a DAG with 2k rows.
+%% 3. Show that the number of such paths is
+%% O
+%% 1
+%% √
+%% k
+%% 2
+%% 2k
+%% 
+%% (You will need Stirling’s formula to show this. In fact, you’ll need one of the strengthened forms at the end of the Stirling’s formula handout.)
+
+
+
+%% 1.2 Exercise Prove that Cost(start) does indeed return the least cost of any path from start to end.
+
+%% Hint: First, note that for any node x in our graph G, there might be a number of different paths
+%% from x to end. However, since G is a finite DAG, there can only be a finite number of such paths, and so there will of necessity be a path of greatest length. (There could be more than one such path, but that doesn’t matter.)
+%% Using that fact, you can prove the result I’m asking for by induction. Here is an inductive hypothesis
+%% that you could use:
+%% For each integer n ≥ 0, if v is any node in the graph such that the greatest cost of any path from v to end is ≤ n, then Cost(v) is the least cost of any path from v to end.
+%% This is clearly true for n = 0. Go from there.
+
+%% \paragraph{1.} This is a good place to try illustrating a generalization to DAGs of the induction principle for binary trees which Professor Offner asked about in annotation to my HW 2.
+
+%% For simplicity, let's consider the class of all DAGs whose domain is a finite subset of $\mathbb N$.  I'll give an inductive definition of the class which generalizes the inductive definition of (unordered) binary trees.  Then, I'll show that this definition exactly specifies the class of all finite DAGs.
+
+%% If $G$ is a graph, let me write $V(G)$ for the set of vertices of $G$, and $E(G)$ for the set of its edges.  Given some graph $G$, let $v$ be a finite subset of $\mathbb N - V(G)$, and let $e$ be a subset of $v\times V(G)$.  Then $v$ and $e$ generate, from $G$, a new graph $\gamma_{v,e}(G)$ such that $V(\gamma_g(G)) = |G|\cup v$, and $E(\gamma_g(G)) = E(G)\cup e$.  Now, let $\gamma(G)$ be the set of all graphs generated from $G$ by some such $v,e$.  If $X$ is a class of graphs, let $\Gamma(X)=\{\gamma(G):G\in X\}$.  Finally, let $I^0_\Gamma = \{\}$, let $I^{n+1}_\Gamma = \Gamma(I^n_\Gamma)$, and let $I_\Gamma = \bigcup_{n\in \mathbb N}I^n_\Gamma$.
+
+%% I will now argue that $G$ is a finite DAG over $\mathbb N$ iff $G$ belongs to $I_\Gamma$.  For the ``if'' direction, it is easy to see by induction on that if $G\in I^n_\Gamma$, then $G$ is a finite DAG over $\mathbb N$.  Specifically, cycles are excluded because at each stage, the source of a new edge relation is drawn from a set which is disjoint from the set of targets of the transitive closure of the edge relation.  Conversely, if $G$ is a finite DAG, then for each node $x\in V(G)$ there is a longest path emanating from $x$; and this path is finite.  It is similarly routine to show, by induction on the length $n$ of the longest path emanating from any node in $G$, that $G\in I^{n}_\Gamma$.  The idea is just to observe that, by dropping from $G$ all nodes with no incoming edges, we obtain another graph $G'$ such that $G\in \Gamma(G')$ and by induction hypothesis, $G'\in I^{n-1}_\Gamma$.
+
+
+
+
+\end{document} 
+
+
+
+
+
